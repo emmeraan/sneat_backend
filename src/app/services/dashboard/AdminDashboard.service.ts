@@ -8,25 +8,30 @@ import { hashPassword } from 'src/app/utils/auth/bcrypt';
 export class AdminDasboardService {
   constructor(private readonly DB: DatabaseService) {}
   async totalUserDisplay(
-    role,
-    activity,
     page,
     limit,
     search,
     authUser,
   ) {
-    // let offset = (page - 1) * limit;
     if (authUser.role != 2) {
       return {
         status: false,
         message: 'Not an Admin',
       };
     }
+    // page=1;
+    // limit=2;
+    const offset = (page - 1) * limit;
     let whereClause: any = {};
     if (search) {
       whereClause[Op.or] = [
         {
-          username: {
+          firstname: {
+            [Op.like]: `%${search}%`,
+          },
+        },
+        {
+          lastname: {
             [Op.like]: `%${search}%`,
           },
         },
@@ -35,85 +40,31 @@ export class AdminDasboardService {
             [Op.like]: `%${search}%`,
           },
         },
-        // {
-        //     activity: {
-        //       [Op.like]: `%${search}%`,
-        //     },
-        //   },
       ];
     }
-    if (role) {
-      if (
-        role != 'Admin' &&
-        role != 'Host' &&
-        role != 'Co-Host' &&
-        role != 'Speaker' &&
-        role != 'Standard User'
-      ) {
-        //
-        return {
-          status: false,
-          message: `Not Valid selection of User Role, Enter role as Admin, Host, Co-Host, Speaker or Standard User `,
-        };
-        //role 2 for Admin, role 3 for Host, role 4 for Co-Host, role 5 for Speaker and role 6 for Standard User
-      } else {
-        if (role == 'Admin') {
-          whereClause.role = 2;
-        } else if (role == 'Host') {
-          whereClause.Role = 3;
-        } else if (role == 'Co-Host') {
-          whereClause.role = 4;
-        } else if (role == 'Speaker') {
-          whereClause.role = 5;
-        } else if (role == 'Standard User') {
-          whereClause.role = 6;
-        } else {
-          return {
-            status: false,
-            message: 'not valid selection of User Role',
-          };
-        }
-      }
-    }
-    if (activity) {
-      if (
-        activity != 'Game Zone' &&
-        activity != 'Software House' &&
-        activity != 'Library' &&
-        activity != 'Software Agency' &&
-        activity != 'Cinema' &&
-        activity != 'School'
-      ) {
-        //
-        return {
-          status: false,
-          message: `Not Valid selection of Activty`,
-        };
-        //role 2 for Admin, role 3 for Host, role 4 for Co-Host, role 5 for Speaker and role 6 for Standard User
-      } else {
-        whereClause.activity = activity;
-      }
-    }
     console.log(whereClause);
-
-    // console.log(PaginationHelper.getLimit(limit),"limitttttttttttttt");
     let totalUser = await this.DB.Models['User'].findAll({
-      attributes: { exclude: ['password', 'forgetpasscode'] },
+      attributes: { exclude: ['password', 'OTP'] },
       where: [
         whereClause,
         // {[Op.not]:{role:2}}
       ],
       order: [['updatedAt', 'DESC']],
-      limit: PaginationHelper.getLimit(limit),
-      offset: PaginationHelper.getCustomPageOffset(page, limit),
+      offset: offset,
+      limit: limit,
     });
-
+    console.log(totalUser);
+    
     let count = await this.DB.Models['User'].count({
       where: [
         whereClause,
         // {[Op.not]:{role:2}}
       ],
+      offset: offset,
+      limit: limit,
     });
+    console.log(count);
+    
     return PaginationHelper.Paginate(count, page, limit, totalUser);
   }
   async adminCreateNewUser(data, authUser) {
@@ -123,58 +74,63 @@ export class AdminDasboardService {
         message: 'Not an Admin',
       };
     }
-    console.log(data.role);
     let findUser = await this.DB.Models['User'].findOne({
-      attributes: ['username'],
       where: { email: data.email },
     });
     if (findUser) {
       return {
         status: false,
-        message: `Already User exist with username ${findUser.username} with same Email address`,
+        message: `Already User exist with same Email address`,
       };
     }
-    let userRole;
-    if (
-      data.role != 'Admin' &&
-      data.role != 'Host' &&
-      data.role != 'Co-Host' &&
-      data.role != 'Speaker' &&
-      data.role != 'Standard User'
-    ) {
-      //
-      return {
-        status: false,
-        message: `Not Valid selection of User Role, Enter role as Admin, Host, Co-Host, Speaker or Standard User `,
-      };
-      //role 2 for Admin, role 3 for Host, role 4 for Co-Host, role 5 for Speaker and role 6 for Standard User
-    } else {
-      if (data.role == 'Standard User') {
-        userRole = 1;
-      } else if (data.role == 'Admin') {
-        userRole = 2;
-      } else if (data.role == 'Guest') {
-        userRole = 3;
-      } else if (data.role == 'Host') {
-        userRole = 4;
-      } else if (data.role == 'Co-Host') {
-        userRole = 5;
-      }else if (data.role == 'Speaker') {
-        userRole = 6;
-      } else {
-        return {
-          status: false,
-          message: 'not valid selection of User Role',
-        };
-      }
-    }
+    // let userRole;
+    // if (
+    //   data.role != 'Admin' &&
+    //   data.role != 'Host' &&
+    //   data.role != 'Co-Host' &&
+    //   data.role != 'Speaker' &&
+    //   data.role != 'Standard User'
+    // ) {
+    //   //
+    //   return {
+    //     status: false,
+    //     message: `Not Valid selection of User Role, Enter role as Admin, Host, Co-Host, Speaker or Standard User `,
+    //   };
+    //   //role 2 for Admin, role 3 for Host, role 4 for Co-Host, role 5 for Speaker and role 6 for Standard User
+    // } else {
+    //   if (data.role == 'Standard User') {
+    //     userRole = 1;
+    //   } else if (data.role == 'Admin') {
+    //     userRole = 2;
+    //   } else if (data.role == 'Guest') {
+    //     userRole = 3;
+    //   } else if (data.role == 'Host') {
+    //     userRole = 4;
+    //   } else if (data.role == 'Co-Host') {
+    //     userRole = 5;
+    //   }else if (data.role == 'Speaker') {
+    //     userRole = 6;
+    //   } else {
+    //     return {
+    //       status: false,
+    //       message: 'not valid selection of User Role',
+    //     };
+    //   }
+    // }
 
     let hashpass = hashPassword(data.password);
     let createNewUser = await this.DB.Models['User'].create({
-      full_name: data.full_name,
+      firstname: data.firstname,
+      lastname: data.lastname,
       email: data.email,
       password: hashpass,
-      role: userRole,
+      role: 1,
+      DateOfBirth:data.DateOfBirth,
+      phone:data.phone,
+      address:data.address,
+      position:data.position,
+      departement:data.departement,
+      image:data.image
     });
     if (createNewUser) {
       return {

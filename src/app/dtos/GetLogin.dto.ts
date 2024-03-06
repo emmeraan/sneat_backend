@@ -10,7 +10,7 @@ export class GetLoginDto {
         required: true
     })
     @IsNotEmpty()
-    email_or_username: string
+    email: string
 
     @ApiProperty({
         description: 'Enter your password',

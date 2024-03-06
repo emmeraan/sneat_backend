@@ -4,12 +4,20 @@ import { IsEmail, IsNotEmpty, Length } from 'class-validator';
 export class SignupDto {
 
   @ApiProperty({
-    description: 'enter username',
+    description: 'enter firstname',
+    example: 'firstname',
+    required: true,
+  })
+  @IsNotEmpty()
+  firstname: string;
+
+  @ApiProperty({
+    description: 'enter lastname',
     example: 'username',
     required: true,
   })
   @IsNotEmpty()
-  username: string;
+  lastname: string;
 
   @ApiProperty({
     description: 'email of user',

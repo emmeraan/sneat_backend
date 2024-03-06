@@ -28,7 +28,16 @@ export class User extends Model {
   email: string;
 
   @Column
-  username: string;
+  firstname: string;
+
+  @Column
+  lastname: string
+
+  @Column
+  DateOfBirth: string
+
+  @Column
+  address: string
 
   @Column
   phone: number;
@@ -44,6 +53,12 @@ export class User extends Model {
 
   @Column
   image: string;
+
+  @Column
+  position: string
+
+  @Column
+  departement: string
 
   @CreatedAt
   createdAt: Date;

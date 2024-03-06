@@ -4,6 +4,7 @@ import Query from 'mysql2/typings/mysql/lib/protocol/sequences/Query';
 import { checkHash, hashPassword } from 'src/app/utils/auth/bcrypt';
 import { DatabaseService } from '../database/Database.service';
 import { isEmail } from 'class-validator';
+import { Op } from 'sequelize';
 const { isValidAddress } = require('ethereumjs-util');
 
 @Injectable()
@@ -16,25 +17,18 @@ export class SignupService {
         let existmail = await this.DB.Models['User'].findAll({
           where: [{ email: signup.email }],
         });
-        let existusername = await this.DB.Models['User'].findAll({
-          where: [{ username: signup.username }],
-        });
         if (existmail.length > 0) {
           res.status(409).json({
             status: 'false',
             message: 'A user already registerd with this email',
-          });
-        } else if (existusername.length > 0) {
-          res.status(409).json({
-            status: 'false',
-            message: 'A user already registerd with this username',
           });
         } else {
           let mail = isEmail(signup.email);
           if (mail == true) {
             let check = hashPassword(signup.password);
             let create = await this.DB.Models['User'].create({
-              username: signup.username,
+              firstnme: signup.firstname,
+              lastname: signup.lastname,
               email: signup.email,
               password: check,
               role: 1,

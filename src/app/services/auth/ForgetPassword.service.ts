@@ -27,9 +27,9 @@ export class ForgetPasswordService {
       )
       console.log('mail process')
        let mail = await this.mailService.sendMail({
-          from: 'Metaverse',
+          from: 'Team Sneat Tech',
           to: body.email,
-          subject: 'Forget Metaverse password',
+          subject: 'Forget sneat password',
           template: 'forgetpassword',
           context: {
             first_name: searchEmail.full_name,

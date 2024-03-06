@@ -13,21 +13,21 @@ export class MetaMaskController{
  constructor(private readonly mmService:MetamaskService){}
 
 
- @Post("/nonce")
- @ApiOperation({ summary: 'post to get user nonce'})
-    async nonce(
-      @Body() metamask:MetaMaskDto,
-      @Res() res:Response
-      ){
-    return await this.mmService.nonce(metamask,res);
-    }
+//  @Post("/nonce")
+//  @ApiOperation({ summary: 'post to get user nonce'})
+//     async nonce(
+//       @Body() metamask:MetaMaskDto,
+//       @Res() res:Response
+//       ){
+//     return await this.mmService.nonce(metamask,res);
+//     }
 
-  @Post('/verify')
-  @ApiOperation({ summary: 'verify your identity'})
-    async verify(
-      @Body() verifyMeta:VerifyMetamaskDto,
-      @Res() res:Response
-      ) {
-    return await this.mmService.verify(verifyMeta,res)
-    }
+//   @Post('/verify')
+//   @ApiOperation({ summary: 'verify your identity'})
+//     async verify(
+//       @Body() verifyMeta:VerifyMetamaskDto,
+//       @Res() res:Response
+//       ) {
+//     return await this.mmService.verify(verifyMeta,res)
+//     }
 }
