@@ -8,7 +8,8 @@ import { PaginateModule } from '@dev-talha-anwar/nestjs-sequelize-paginate';
 import { SocketModule } from '../gateway/Socket.module';
 import { ClassSerializerInterceptor, Module } from '@nestjs/common';
 import { UserModule } from '../user/User.module';
-import { AdminDashboardModule } from '../dashboard/AdminDashboard.module';
+import { AdminModule } from '../admin/Admin.module';
+import { EmployeeModule } from '../employee/Employee.module';
 
 @Module({
   imports: [
@@ -19,7 +20,8 @@ import { AdminDashboardModule } from '../dashboard/AdminDashboard.module';
     PaginateModule.forRoot({ defaultOffset: 10 }),
     SocketModule,
     UserModule,
-    AdminDashboardModule
+    AdminModule,
+    EmployeeModule
   ],
   controllers: [],
   providers: [

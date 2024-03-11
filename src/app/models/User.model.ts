@@ -13,7 +13,7 @@ import {
 
 @Table({
   tableName: 'users',
-  paranoid: true,
+  // paranoid: true,
 })
 export class User extends Model {
   @Column({
@@ -66,7 +66,7 @@ export class User extends Model {
   @UpdatedAt
   updatedAt: Date;
 
-  @DeletedAt
-  @Column({ type: DataType.DATE })
-  deletedAt: Date;
+  // @DeletedAt
+  // @Column({ type: DataType.DATE })
+  // deletedAt: Date;
 }

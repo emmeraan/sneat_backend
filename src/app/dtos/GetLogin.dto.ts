@@ -5,8 +5,8 @@ import { IsDate, IsNotEmpty} from "class-validator"
 export class GetLoginDto {
 
     @ApiProperty({
-        description: 'Enter your email or username',
-        example: 'naeem@shahzad.com / @naeem',
+        description: 'Enter your email',
+        example: 'user@domain.com',
         required: true
     })
     @IsNotEmpty()

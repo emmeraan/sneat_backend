@@ -5,9 +5,9 @@ import { PaginationHelper } from 'src/app/utils/helpers/Pagination.helper';
 import { hashPassword } from 'src/app/utils/auth/bcrypt';
 
 @Injectable()
-export class AdminDasboardService {
+export class EmployeeService {
   constructor(private readonly DB: DatabaseService) {}
-  async totalUserDisplay(
+  async all(
     page,
     limit,
     search,
@@ -67,7 +67,7 @@ export class AdminDasboardService {
     
     return PaginationHelper.Paginate(count, page, limit, totalUser);
   }
-  async adminCreateNewUser(data, authUser) {
+  async create(data, authUser) {
     if (authUser.role != 2) {
       return {
         status: false,
@@ -144,42 +144,14 @@ export class AdminDasboardService {
       };
     }
   }
-  async validateId(id, authId) {
-    for (let i = 0; i < id.length; i++) {
-      console.log('Validate user id' + id[i]);
-      let UserValidate = await this.DB.Models['User'].findOne({
-        where: { id: id[i] },
-      });
-      if (!UserValidate) {
-        return {
-          status: false,
-        };
-      } else if (UserValidate.id == authId) {
-        return {
-          status: false,
-        };
-      } else if (UserValidate.role == 2) {
-        return {
-          status: false,
-        };
-      }
-    }
-  }
-  async adminDeleteUser(data, authUser) {
+  async delete(data, authUser) {
     if (authUser.role != 2) {
       return {
         status: false,
         message: 'Not an Admin',
       };
     }
-    let check = await this.validateId(data.id, authUser.id);
-    if (check?.status == false) {
-      return {
-        status: false,
-        message: 'One or more Id not exist in Database',
-      };
-    }
-    let findUser = await this.DB.Models['User'].findAll({
+    let findUser = await this.DB.Models['User'].findOne({
       where: { id: data.id },
     });
     if (!findUser) {
@@ -206,7 +178,7 @@ export class AdminDasboardService {
       };
     }
   }
-  async adminUpdateUser(data, authUser) {
+  async update(data, authUser) {
     let updatedata: any = {};
     if (authUser.role != 2) {
       return {
@@ -289,7 +261,7 @@ export class AdminDasboardService {
       };
     }
   }
-  async viewUser(id, authUser) {
+  async view(id, authUser) {
     if (authUser.role != 2) {
       return {
         status: false,

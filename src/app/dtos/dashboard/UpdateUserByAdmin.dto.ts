@@ -1,7 +1,15 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsDate, IsDateString, IsEmail, IsNotEmpty, IsString } from "class-validator";
+import { IsDateString, IsEmail, IsNotEmpty, IsString } from "class-validator";
 
-export class CreateUserByAdmin{
+export class UpdateUserAdminDto{
+    @ApiProperty({
+        description: 'Enter Id of User you want to Update',
+        example: '25',
+        required: true
+    }) 
+    @IsNotEmpty() 
+    id: number
+
     @ApiProperty({
         description: 'firstname of user',
         example: 'Emmeraan',
@@ -33,13 +41,6 @@ export class CreateUserByAdmin{
     })
     @IsString()    
     password: string
-
-    // @ApiProperty({
-    //     description: 'Role of  user',
-    //     example: 'Admin',
-    //     required: false
-    // })  
-    // role: string
 
     @ApiProperty({
         description: 'image',
