@@ -1,15 +1,13 @@
 import {
-  BelongsTo,
-  BelongsToMany,
   Column,
   CreatedAt,
   DataType,
-  DeletedAt,
   HasMany,
   Model,
   Table,
   UpdatedAt,
 } from 'sequelize-typescript';
+import { Attendence } from './Attendence.model';
 
 @Table({
   tableName: 'users',
@@ -31,13 +29,13 @@ export class User extends Model {
   firstname: string;
 
   @Column
-  lastname: string
+  lastname: string;
 
   @Column
   DateOfBirth: string
 
   @Column
-  address: string
+  address: string;
 
   @Column
   phone: number;
@@ -55,10 +53,13 @@ export class User extends Model {
   image: string;
 
   @Column
-  position: string
+  position: string;
 
   @Column
-  departement: string
+  departement: string;
+
+  @HasMany(() => Attendence)
+  attendence: Attendence;
 
   @CreatedAt
   createdAt: Date;
