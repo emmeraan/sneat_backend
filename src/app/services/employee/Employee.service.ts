@@ -83,41 +83,6 @@ export class EmployeeService {
         message: `Already User exist with same Email address`,
       };
     }
-    // let userRole;
-    // if (
-    //   data.role != 'Admin' &&
-    //   data.role != 'Host' &&
-    //   data.role != 'Co-Host' &&
-    //   data.role != 'Speaker' &&
-    //   data.role != 'Standard User'
-    // ) {
-    //   //
-    //   return {
-    //     status: false,
-    //     message: `Not Valid selection of User Role, Enter role as Admin, Host, Co-Host, Speaker or Standard User `,
-    //   };
-    //   //role 2 for Admin, role 3 for Host, role 4 for Co-Host, role 5 for Speaker and role 6 for Standard User
-    // } else {
-    //   if (data.role == 'Standard User') {
-    //     userRole = 1;
-    //   } else if (data.role == 'Admin') {
-    //     userRole = 2;
-    //   } else if (data.role == 'Guest') {
-    //     userRole = 3;
-    //   } else if (data.role == 'Host') {
-    //     userRole = 4;
-    //   } else if (data.role == 'Co-Host') {
-    //     userRole = 5;
-    //   }else if (data.role == 'Speaker') {
-    //     userRole = 6;
-    //   } else {
-    //     return {
-    //       status: false,
-    //       message: 'not valid selection of User Role',
-    //     };
-    //   }
-    // }
-
     let hashpass = hashPassword(data.password);
     let createNewUser = await this.DB.Models['User'].create({
       firstname: data.firstname,
@@ -187,7 +152,6 @@ export class EmployeeService {
       };
     }
     let findUser = await this.DB.Models['User'].findOne({
-      attributes: ['role'],
       where: {
         id: data.id,
       },
@@ -198,53 +162,37 @@ export class EmployeeService {
         message: 'User not exist',
       };
     }
-    if (data.role) {
-      if (
-        data.role != 'Admin' &&
-        data.role != 'Host' &&
-        data.role != 'Co-Host' &&
-        data.role != 'Speaker' &&
-        data.role != 'Standard User'
-      ) {
-        //
-        return {
-          status: false,
-          message: `Not Valid selection of User Role, Enter role as Admin, Host, Co-Host, Speaker or Standard User `,
-        };
-        //role 2 for Admin, role 3 for Host, role 4 for Co-Host, role 5 for Speaker and role 6 for Standard User
-      } else {
-        if (data.role == 'Standard User') {
-          updatedata.role = 1;
-        } else if (data.role == 'Admin') {
-          updatedata.role = 2;
-        } else if (data.role == 'Guest') {
-          updatedata.role = 3;
-        } else if (data.role == 'Host') {
-          updatedata.role = 4;
-        } else if (data.role == 'Co-Host') {
-          updatedata.role = 5;
-        } else if (data.role == 'Speaker') {
-          updatedata.role = 6;
-        } else {
-          return {
-            status: false,
-            message: 'not valid selection of User Role',
-          };
-        }
-      }
+    if (data.firstname) {
+      updatedata.firstname = data.firstname;
     }
-    if (data.fullname) {
-      updatedata.username = data.fullname;
+    if (data.lastname) {
+      updatedata.lastname = data.lastname;
     }
     if (data.email) {
       updatedata.email = data.email;
     }
-    if (data.password) {
-      updatedata.password = hashPassword(data.password);
+    if (data.image) {
+      updatedata.image = data.image;
+    }
+    if (data.DateOfBirth) {
+      updatedata.DateOfBirth = data.DateOfBirth;
+    }
+    if (data.phone) {
+      updatedata.phone = data.phone;
+    }
+    if (data.address) {
+      updatedata.address = data.address;
+    }
+    if (data.position) {
+      updatedata.position = data.position;
+    }
+    if (data.departement) {
+      updatedata.departement = data.departement;
     }
     if (data.image) {
       updatedata.image = data.image;
     }
+
 
     let update_user = await this.DB.Models['User'].update(updatedata, {
       where: [{ id: data.id }],

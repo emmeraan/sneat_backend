@@ -24,6 +24,10 @@ export class DatabaseModule {
             query:{
                 raw:true, 
             },
+            // sync: {
+            //   alter: true, // Use alter: true for Sequelize alter mode
+            //   force: false, // Set to false to prevent dropping tables
+            // },
             models: Models,
         }),
         KnexModule.forRoot({
