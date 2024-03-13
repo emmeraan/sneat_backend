@@ -4,6 +4,7 @@ import {
     Post,
     Controller,
     Get,
+    Query,
   } from '@nestjs/common';
   import {
     ApiBadRequestResponse,
@@ -13,6 +14,7 @@ import {
     ApiUnauthorizedResponse,
   } from '@nestjs/swagger';
 import { AddAttendenceDto } from "src/app/dtos/attendence/AddAttendence.dto";
+import { ViewAttendenceDto } from 'src/app/dtos/attendence/ViewAttendence.dto';
 import { AttendenceService } from "src/app/services/attendence/Attendence.service";
 import { AuthJwtGuard } from 'src/app/utils/auth/guards/AuthJwt.guard';
 import { AuthUser } from "src/app/utils/decorators/AuthUser.decorator";
@@ -35,8 +37,8 @@ export class AttendenceController{
   }
 
   @Get('view')
-  async view(@Body() data){
-    let res=await this.attendenceService.view(data)
+  async view( @Query() viewAttendenceDto:ViewAttendenceDto){
+    let res=await this.attendenceService.view(viewAttendenceDto)
     return res
   }
 }
