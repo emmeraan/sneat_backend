@@ -10,8 +10,14 @@ export class EditProfileDto {
         example: 'Naeem',
         required: false
     })  
-    full_name: string
+    firstname: string
 
+    @ApiProperty({
+        description: 'full_name of user',
+        example: 'Naeem',
+        required: false
+    })  
+    lastname: string
 
     @ApiProperty({
         description: 'Enter your image title',
@@ -19,13 +25,6 @@ export class EditProfileDto {
         required: false
     })
     image: string
-
-    @ApiProperty({
-        description: 'Choose a username',
-        example: 'Your image title here',
-        required: false
-    })
-    username: string
 
     @ApiProperty({
         description: 'user phone number',
@@ -43,6 +42,8 @@ export class EditProfileDto {
 
 
 }
+
+
 
 
 
