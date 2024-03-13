@@ -2,6 +2,7 @@ import {
   Column,
   CreatedAt,
   DataType,
+  DeletedAt,
   HasMany,
   Model,
   Table,
@@ -41,6 +42,9 @@ export class User extends Model {
   phone: number;
 
   @Column
+  cnic:number
+
+  @Column
   password: string;
 
   @Column
@@ -53,11 +57,32 @@ export class User extends Model {
   image: string;
 
   @Column
+  qualification: string
+  
+  @Column
+  city: string
+
+  @Column
+  gender:string
+
+  @Column
+  employment_Status:string
+
+  @Column
+  martial_status:string
+
+  @Column
   position: string;
 
   @Column
   departement: string;
 
+  @Column
+  designation:string
+
+  @Column
+  join_date:Date
+  
   @HasMany(() => Attendence)
   attendence: Attendence;
 
@@ -67,7 +92,7 @@ export class User extends Model {
   @UpdatedAt
   updatedAt: Date;
 
-  // @DeletedAt
-  // @Column({ type: DataType.DATE })
-  // deletedAt: Date;
+  @DeletedAt
+  @Column({ type: DataType.DATE })
+  deletedAt: Date;
 }

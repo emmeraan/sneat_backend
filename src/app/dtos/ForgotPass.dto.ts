@@ -6,7 +6,7 @@ export class ForgotPassDto {
 
     @ApiProperty({
         description: 'Enter your email',
-        example: 'naeem@shahzad.com',
+        example: 'user@email.com',
         required: true
     })
     @IsNotEmpty()

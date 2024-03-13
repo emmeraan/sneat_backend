@@ -6,7 +6,7 @@ import { hashPassword } from 'src/app/utils/auth/bcrypt';
 
 @Injectable()
 export class EmployeeService {
-  constructor(private readonly DB: DatabaseService) {}
+  constructor(private readonly DB:DatabaseService){}
   async all(
     page,
     limit,
@@ -90,12 +90,18 @@ export class EmployeeService {
       email: data.email,
       password: hashpass,
       role: 1,
-      DateOfBirth:data.DateOfBirth,
-      phone:data.phone,
-      address:data.address,
-      position:data.position,
-      departement:data.departement,
-      image:data.image
+      DateOfBirth: data.DateOfBirth,
+      phone: data.phone,
+      address: data.address,
+      position: data.position,
+      departement: data.departement,
+      image: data.image,
+      gender: data.gender,
+      city: data.city,
+      join_date: data.join_date,
+      martial_status: data.martial_status,
+      employment_Status: data.employment_Status,
+      designation: data.designation,
     });
     if (createNewUser) {
       return {
@@ -162,6 +168,10 @@ export class EmployeeService {
         message: 'User not exist',
       };
     }
+
+    if(data.password){
+      updatedata.password=hashPassword(data.password)
+    }
     if (data.firstname) {
       updatedata.firstname = data.firstname;
     }
@@ -192,7 +202,21 @@ export class EmployeeService {
     if (data.image) {
       updatedata.image = data.image;
     }
-
+    if (data.gender) {
+      updatedata.gender = data.gender;
+    }
+    if (data.join_date) {
+      updatedata.join_date = data.join_date;
+    }
+    if (data.martial_status) {
+      updatedata.martial_status = data.martial_status;
+    }
+    if (data.employment_Status) {
+      updatedata.employment_Status = data.employment_Status;
+    }
+    if (data.designation) {
+      updatedata.designation = data.designation;
+    }
 
     let update_user = await this.DB.Models['User'].update(updatedata, {
       where: [{ id: data.id }],

@@ -10,6 +10,7 @@ import { ClassSerializerInterceptor, Module } from '@nestjs/common';
 import { UserModule } from '../user/User.module';
 import { AdminModule } from '../admin/Admin.module';
 import { EmployeeModule } from '../employee/Employee.module';
+import { AttendenceModule } from '../attendence/Attendence.module';
 
 @Module({
   imports: [
@@ -21,7 +22,8 @@ import { EmployeeModule } from '../employee/Employee.module';
     SocketModule,
     UserModule,
     AdminModule,
-    EmployeeModule
+    EmployeeModule,
+    AttendenceModule
   ],
   controllers: [],
   providers: [
