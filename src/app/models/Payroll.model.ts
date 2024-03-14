@@ -1,5 +1,5 @@
 import {
-  BelongsTo,
+    BelongsTo,
     Column,
     CreatedAt,
     DataType,
@@ -9,13 +9,13 @@ import {
     Table,
     UpdatedAt,
   } from 'sequelize-typescript';
-import { Vendor } from './Vendor.model';
+  import { User } from './User.model';
   
   @Table({
-    tableName: 'products',
+    tableName: 'payrolls',
     paranoid: true,
   })
-  export class Product extends Model {
+  export class Payroll extends Model {
     @Column({
       primaryKey: true,
       type: DataType.INTEGER,
@@ -24,21 +24,18 @@ import { Vendor } from './Vendor.model';
     })
     id: number;
   
+    @ForeignKey(() => User)
     @Column
-    name: string;
+    employee_id: number;
   
     @Column
-    price: string;
-
-    @Column
-    description: string
+    amount: number;
     
     @Column
-    stockQuantity: number
+    deduction_type: string;
 
-    @ForeignKey(() => Vendor)
     @Column
-    vendor_id: number
+    transaction_date: Date;
   
     @CreatedAt
     createdAt: Date;
@@ -49,8 +46,8 @@ import { Vendor } from './Vendor.model';
     @DeletedAt
     @Column({ type: DataType.DATE })
     deletedAt: Date;
-
-    @BelongsTo(() => Vendor)
-    vendor: Vendor;
+  
+    @BelongsTo(() => User)
+    user: User;
   }
   

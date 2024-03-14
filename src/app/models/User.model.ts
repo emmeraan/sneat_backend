@@ -9,6 +9,10 @@ import {
   UpdatedAt,
 } from 'sequelize-typescript';
 import { Attendence } from './Attendence.model';
+import { Deduction } from './Deduction.model';
+import { Salary } from './Salary.model';
+import { Payroll } from './Payroll.model';
+import { FinancialTransaction } from './FinancialTransactions.model';
 
 @Table({
   tableName: 'users',
@@ -85,6 +89,18 @@ export class User extends Model {
   
   @HasMany(() => Attendence)
   attendence: Attendence;
+
+  @HasMany(() => Deduction)
+  deduction: Deduction;
+
+  @HasMany(() => Salary)
+  salary: Salary;
+
+  @HasMany(() => Payroll)
+  payroll: Payroll;
+
+  @HasMany(() => FinancialTransaction)
+  financialTransaction: FinancialTransaction;
 
   @CreatedAt
   createdAt: Date;
