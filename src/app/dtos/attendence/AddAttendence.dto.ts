@@ -1,8 +1,14 @@
 import { Type } from "class-transformer";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsArray, IsNotEmpty, IsNumber, IsOptional, Validate, ValidateNested } from "class-validator";
-import { DbExistsValidation } from "src/app/utils/validations/DbExists.validation";
-import { IsDate } from "sequelize-typescript";
+import { IsArray, IsEnum, IsInstance, IsNotEmpty, IsNumber, IsOptional, Validate, ValidateNested, isIn } from "class-validator";
+
+enum StatusTYPE {
+    Present = 'Present',
+    Absent = 'Absent',
+    Leave = 'Leave',
+    Late = 'Late',
+    Half_Day = 'Half_Day'
+  }
 
 export class AddAttendenceDto{
     @ApiProperty({
@@ -10,8 +16,6 @@ export class AddAttendenceDto{
         example: 1,
         required: true
     })
-    @IsNumber()
-    // @Validate(DbExistsValidation, ['user'])
     employee_id: number
 
     @ApiProperty({
@@ -20,6 +24,7 @@ export class AddAttendenceDto{
         required: true
     })
     @IsNotEmpty()
+    @IsEnum(['checkin', 'checkout'])
     type: string
 
     @ApiProperty({
@@ -28,5 +33,7 @@ export class AddAttendenceDto{
         required: true
     })
     @IsNotEmpty()
+    @IsEnum(StatusTYPE)
     status: string
 }
+

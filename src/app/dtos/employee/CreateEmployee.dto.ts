@@ -29,16 +29,15 @@ export class CreateEmployeeDto {
     example: 'user123@xyz.com',
     required: false,
   })
-  @IsEmail()
   email: string;
 
-  @ApiProperty({
-    description: 'password of user',
-    example: 'qwe',
-    required: false,
-  })
-  @IsString()
-  password: string;
+  // @ApiProperty({
+  //   description: 'password of user',
+  //   example: 'qwe',
+  //   required: false,
+  // })
+  // @IsString()
+  // password: string;
 
   @ApiProperty({
     description: 'image',

@@ -5,7 +5,7 @@ export class PaginationDto {
   @ApiProperty({
     description: 'records per page',
     example: 4,
-    required: false,
+    required: true,
   })
   @IsOptional()
   limit: number;
@@ -13,7 +13,7 @@ export class PaginationDto {
   @ApiProperty({
     description: 'page Number',
     example: 1,
-    required: false,
+    required: true,
   })
   @IsOptional()
   page: number;
