@@ -10,12 +10,7 @@ import {
     UpdatedAt,
   } from 'sequelize-typescript';
   import { User } from './User.model';
-  
-  enum TransactionType {
-    DEBIT = 'debit',
-    CREDIT = 'credit',
-    TRANSFER = 'transfer',
-  }
+import { Platform } from './Platform.model';
 
   @Table({
     tableName: 'Financial_transaction',
@@ -29,6 +24,12 @@ import {
       autoIncrement: true,
     })
     id: number;
+
+    @Column({
+      allowNull: false,
+    })
+    @ForeignKey(() => Platform)
+    platform_id: number;
   
     @ForeignKey(() => User)
     @Column
@@ -41,19 +42,31 @@ import {
       type: DataType.ENUM,
       values: ['Advance', 'FuturePayment'],
     })
-    transaction_type: TransactionType;
+    transaction_type: 'Advance' | 'FuturePayment';
 
     @Column
     transaction_date : Date;
 
+    @Column({
+      type: DataType.ENUM,
+      values: ['Cash_payment', 'Salary_deduction'],
+    })
+    return_policy: 'Cash_payment' | 'Salary_deduction';
+
     @Column
-    remaining_balance :number
+    remaining_amount : number;
+
+    @Column
+    Loan_manager: string;
   
     @CreatedAt
     createdAt: Date;
   
     @UpdatedAt
     updatedAt: Date;
+
+    @BelongsTo(()=>Platform)
+    platform:Platform
   
     @DeletedAt
     @Column({ type: DataType.DATE })

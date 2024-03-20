@@ -4,15 +4,16 @@ import { InjectModel } from '@nestjs/sequelize';
 import { User } from 'src/app/models/User.model';
 import { checkHash } from 'src/app/utils/auth/bcrypt';
 import { Role } from 'src/app/utils/enums/Role.enum';
+import { DatabaseService } from '../database/Database.service';
 
 @Injectable()
 export class AuthService {
-  constructor(@InjectModel(User) private readonly user: typeof User,private jwtService: JwtService, ) {}
+  constructor(private readonly DB: DatabaseService ,private jwtService: JwtService, ) {}
 
   async validateUser(email: string, pass: string): Promise<any> {
-    const user = await this.user.findOne(
+    const user = await this.DB.Models['User'].findOne(
       {
-        attributes:['password','email','id'],
+        attributes:['password','email','id','platform_id'],
         where: { email: email }
        }
       );
@@ -32,10 +33,9 @@ export class AuthService {
       email: user.email,
       id: user.id,
       role: user.role,
+      platform_id:user.platform_id
       //time_zone: user.timezone,
     };
-    console.log(payload,'payloaddd');
-    
     return {
       access_token: this.jwtService.sign(payload),
     };

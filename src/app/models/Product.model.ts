@@ -10,6 +10,7 @@ import {
     UpdatedAt,
   } from 'sequelize-typescript';
 import { Vendor } from './Vendor.model';
+import { Platform } from './Platform.model';
   
   @Table({
     tableName: 'products',
@@ -24,6 +25,12 @@ import { Vendor } from './Vendor.model';
     })
     id: number;
   
+    @Column({
+      allowNull: false,
+    })
+    @ForeignKey(() => Platform)
+    platform_id: number;
+    
     @Column
     name: string;
   
@@ -45,6 +52,9 @@ import { Vendor } from './Vendor.model';
   
     @UpdatedAt
     updatedAt: Date;
+
+    @BelongsTo(()=>Platform)
+  platform:Platform
   
     @DeletedAt
     @Column({ type: DataType.DATE })

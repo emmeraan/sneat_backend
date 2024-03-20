@@ -3,10 +3,13 @@ import { DatabaseService } from '../database/Database.service';
 import { Op } from 'sequelize';
 import { PaginationHelper } from 'src/app/utils/helpers/Pagination.helper';
 import { hashPassword } from 'src/app/utils/auth/bcrypt';
+import { SalaryService } from '../salary/Salary.service';
 
 @Injectable()
 export class EmployeeService {
-  constructor(private readonly DB:DatabaseService){}
+  constructor(private readonly DB:DatabaseService,
+    private readonly salaryService:SalaryService
+    ){}
   async all(
     page,
     limit,
@@ -74,8 +77,10 @@ export class EmployeeService {
         message: 'Not an Admin',
       };
     }
+    console.log(authUser);
+    
     let findUser = await this.DB.Models['User'].findOne({
-      where: { email: data.email },
+      where: { email: data.email,platform_id:authUser.platform_id },
     });
     if (findUser) {
       return {
@@ -83,12 +88,11 @@ export class EmployeeService {
         message: `Already User exist with same Email address`,
       };
     }
-    let hashpass = hashPassword(data.password);
     let createNewUser = await this.DB.Models['User'].create({
+      platform_id:authUser.platform_id,
       firstname: data.firstname,
       lastname: data.lastname,
       email: data.email,
-      password: hashpass,
       role: 1,
       DateOfBirth: data.DateOfBirth,
       phone: data.phone,
@@ -101,9 +105,20 @@ export class EmployeeService {
       join_date: data.join_date,
       martial_status: data.martial_status,
       employment_Status: data.employment_Status,
-      designation: data.designation,
+      cnic:data.cnic,
+      designation: data.designation
     });
-    if (createNewUser) {
+    let salaryData:any={};
+    salaryData.employee_id=createNewUser.id;
+    salaryData.platform_id=authUser.platform_id;
+    salaryData.basic=data.basic;
+    salaryData.bonus=data.bonus;
+    salaryData.salary_type=data.salary_type,
+    salaryData.start_date=new Date(data.start_date);
+    salaryData.end_date=new Date(data.end_date);
+    let CreateSalary= this.salaryService.addSalary(salaryData);
+    
+    if (createNewUser && CreateSalary) {
       return {
         status: true,
         message: 'User Successfully Created',

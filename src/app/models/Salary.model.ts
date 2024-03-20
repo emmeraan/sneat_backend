@@ -10,6 +10,7 @@ import {
     UpdatedAt,
   } from 'sequelize-typescript';
   import { User } from './User.model';
+import { Platform } from './Platform.model';
   
   @Table({
     tableName: 'salaries',
@@ -23,6 +24,12 @@ import {
       autoIncrement: true,
     })
     id: number;
+
+    @ForeignKey(() => Platform)
+    @Column({
+      allowNull: false,
+    })
+    platform_id: number;
   
     @ForeignKey(() => User)
     @Column
@@ -37,6 +44,12 @@ import {
     @Column
     bonus: number;
 
+    @Column({
+      type: DataType.ENUM,
+      values: ['Daily', 'Monthly','Weekly'],
+    })
+    salary_type: 'Daily' | 'Monthly' | 'Weekly';
+
     @Column
     start_date: Date;
 
@@ -48,6 +61,9 @@ import {
   
     @UpdatedAt
     updatedAt: Date;
+
+    @BelongsTo(()=>Platform)
+    platform:Platform
   
     @DeletedAt
     @Column({ type: DataType.DATE })

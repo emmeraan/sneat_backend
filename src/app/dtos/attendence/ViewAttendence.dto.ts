@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { PaginationDto } from "../Pagination.dto";
-import { IsEnum, IsNotEmpty, IsNumber, Validate } from "class-validator";
+import { IsEnum, IsNotEmpty, IsNumber, IsOptional, Validate } from "class-validator";
 import { DbExistsValidation } from "src/app/utils/validations/DbExists.validation";
 import { Type } from "class-transformer";
 enum StatusTYPE {
@@ -22,10 +22,11 @@ export class ViewAttendenceDto extends PaginationDto {
     employee_id: number
 
     @ApiProperty({
-        description: 'status',
+        description: 'status in enum Present, Absent, Leave, Late',
         example: 'Present',
         required: false
     })
+    @IsOptional()
     @IsEnum(StatusTYPE)
     status: string
 

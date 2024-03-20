@@ -10,6 +10,7 @@ import {
     UpdatedAt,
   } from 'sequelize-typescript';
   import { User } from './User.model';
+import { Platform } from './Platform.model';
   
   @Table({
     tableName: 'payrolls',
@@ -23,6 +24,12 @@ import {
       autoIncrement: true,
     })
     id: number;
+
+    @Column({
+      allowNull: false,
+    })
+    @ForeignKey(() => Platform)
+    platform_id: number;
   
     @ForeignKey(() => User)
     @Column
@@ -42,6 +49,9 @@ import {
   
     @UpdatedAt
     updatedAt: Date;
+
+    @BelongsTo(()=>Platform)
+    platform:Platform
   
     @DeletedAt
     @Column({ type: DataType.DATE })

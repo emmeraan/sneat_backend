@@ -3,23 +3,26 @@ import {
   IsDate,
   IsDateString,
   IsEmail,
+  IsEnum,
   IsNotEmpty,
+  IsNumber,
   IsString,
 } from 'class-validator';
+import { AddSalaryDto } from '../salary/AddSalary.dto';
 
-export class CreateEmployeeDto {
+export class CreateEmployeeDto{
   @ApiProperty({
     description: 'firstname of user',
-    example: 'Emmeraan',
-    required: false,
+    example: 'Emme',
+    required: true,
   })
   @IsString()
   firstname: string;
 
   @ApiProperty({
     description: 'lastname of user',
-    example: 'Emmeraan',
-    required: false,
+    example: 'raan',
+    required: true,
   })
   @IsString()
   lastname: string;
@@ -29,20 +32,13 @@ export class CreateEmployeeDto {
     example: 'user123@xyz.com',
     required: false,
   })
+  @IsEmail()
   email: string;
-
-  // @ApiProperty({
-  //   description: 'password of user',
-  //   example: 'qwe',
-  //   required: false,
-  // })
-  // @IsString()
-  // password: string;
 
   @ApiProperty({
     description: 'image',
     example: 'xyz',
-    required: false,
+    required: true,
   })
   image: string;
 
@@ -56,10 +52,19 @@ export class CreateEmployeeDto {
 
   @ApiProperty({
     description: 'phone number of user',
-    example: '123456',
+    example: 123456,
     required: false,
   })
+  @IsNumber()
   phone: number;
+
+  @ApiProperty({
+    description: 'cnic number of user',
+    example: 3321,
+    required: false,
+  })
+  @IsNumber()
+  cnic: number;
 
   @ApiProperty({
     description: 'address of user',
@@ -82,19 +87,12 @@ export class CreateEmployeeDto {
   })
   departement: string;
 
-  @ApiProperty({
-    description: 'designation of user',
-    example: 'SQA',
-    required: false,
-  })
-  designation: string;
-
-  @ApiProperty({
-    description: 'Status of employee work. Retired, Terminated, Active',
-    example: 'Retired',
-    required: false,
-  })
-  employment_Status: string;
+  // @ApiProperty({
+  //   description: 'Status of employee work. Retired, Terminated, Active',
+  //   example: 'Retired',
+  //   required: false,
+  // })
+  // employment_Status: string;
 
   @ApiProperty({
     description: 'martial status of employee. Married, single',
@@ -106,7 +104,7 @@ export class CreateEmployeeDto {
   @ApiProperty({
     description: 'Joining date of employee',
     example: '01-02-2022',
-    required: false,
+    required: true,
   })
   join_date: string;
 
@@ -123,5 +121,13 @@ export class CreateEmployeeDto {
     required: false,
   })
   gender:string
+
+  @ApiProperty({
+    description: 'Salary type of employee',
+    example: 'Monthly',
+    required: true,
+  })
+  @IsEnum(['Monthly','Weekly','Daily'])
+  salary_type:string
 }
 

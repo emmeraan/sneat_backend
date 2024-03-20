@@ -7,12 +7,13 @@ import { Product } from "./Product.model";
 import { Salary } from "./Salary.model";
 import { User } from "./User.model";
 import { Vendor } from "./Vendor.model";
+import { Platform } from "./Platform.model";
 
 
 export const Models = [
-    User, Vendor, Customer, Product, Attendence, Salary, Deduction, Payroll, FinancialTransaction
+    User, Vendor, Customer, Product, Attendence, Salary, Deduction, Payroll, FinancialTransaction,Platform
 ];
 
 export const ModelNames = [
-    'User', 'Vendor', 'Customer', 'Product', 'Attendence','Salary','Deduction', 'Payroll', 'FinancialTransaction'
+    'User', 'Vendor', 'Customer', 'Product', 'Attendence','Salary','Deduction', 'Payroll', 'FinancialTransaction','Platform'
 ]

@@ -7,11 +7,17 @@ import { User } from 'src/app/models/User.model';
 export class AttendenceService {
   constructor(private readonly DB: DatabaseService) {}
 
-  async addAttendence(data) {
-
+  async addAttendence(data,authUser) {
+    console.log(authUser);
+    if (authUser.role != 2) {
+      return {
+        status: false,
+        message: 'Not an Admin',
+      };
+    }
     let checkUser= await this.DB.Models['User'].findOne({
       where:{
-        id:data.employee_id
+        id:data.employee_id, platform_id:authUser.platform_id
       }
     })
     if(!checkUser){
@@ -20,6 +26,7 @@ export class AttendenceService {
         message:"Not valid employee id"
       }
     }
+    console.log(new Date,";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;");
     const currentDate = new Date();
     const today = new Date(
       currentDate.getFullYear(),
@@ -34,7 +41,7 @@ export class AttendenceService {
     if(data.status=='Absent' || data.status=='Leave' || data.status=='Half_Day'){
       let existingAttendance = await this.DB.Models['Attendence'].findOne({
         where: {
-          employee_id: data.employee_id,
+          employee_id: data.employee_id,platform_id:authUser.platform_id,
           status: [ 'Absent', 'Leave', 'Half_Day','Present' ] // Array of possible status values
         }
       });
@@ -48,6 +55,7 @@ export class AttendenceService {
         employee_id: data.employee_id,
         checkin: new Date(),
         status: data.status,
+        platform_id:authUser.platform_id
       });
       return{
         status:true,
@@ -58,7 +66,7 @@ export class AttendenceService {
     if (data.type == 'checkin') {
       let existingAttendance = await this.DB.Models['Attendence'].findOne({
         where: {
-          employee_id: data.employee_id,
+          employee_id: data.employee_id,platform_id:authUser.platform_id,
           checkin: {
             [Op.gte]: today,
             [Op.lt]: nextDay,
@@ -73,6 +81,7 @@ export class AttendenceService {
       }
       let addAttendence = await this.DB.Models['Attendence'].create({
         employee_id: data.employee_id,
+        platform_id:authUser.platform_id,
         checkin: new Date(),
         status: data.status,
       });
@@ -94,6 +103,7 @@ export class AttendenceService {
       let existingCheckin = await this.DB.Models['Attendence'].findOne({
         where: {
           employee_id: data.employee_id,
+          platform_id:authUser.platform_id,
           checkin: {
             [Op.gte]: today,
             [Op.lt]: nextDay,
@@ -113,6 +123,7 @@ export class AttendenceService {
       let existingAttendance = await this.DB.Models['Attendence'].findOne({
         where: {
           employee_id: data.employee_id,
+          platform_id:authUser.platform_id,
           checkout: {
             [Op.gte]: today,
             [Op.lt]: nextDay,
@@ -135,6 +146,7 @@ export class AttendenceService {
         {
           where: {
             employee_id: data.employee_id,
+            platform_id:authUser.platform_id,
             checkin: {
               [Op.gte]: today,
               [Op.lt]: nextDay,
@@ -162,7 +174,13 @@ export class AttendenceService {
   }
   }
 
-  async view(data) {
+  async view(data,authUser) {
+    if (authUser.role != 2) {
+      return {
+        status: false,
+        message: 'Not an Admin',
+      };
+    }
     let whereClause: any = {};
     if (data.date) {
       const lowerBound = new Date(data.date);
@@ -175,7 +193,7 @@ export class AttendenceService {
     };
     let checkEmployeeId= await this.DB.Models['User'].findOne({
       attributes:['id'],
-      where:{id:data.employee_id}
+      where:{id:data.employee_id,platform_id:authUser.platform_id}
     })
     if(!checkEmployeeId){
       return{
@@ -188,7 +206,7 @@ export class AttendenceService {
     }
     const offset = (data.page - 1) * data.limit;
     let totalUser = await this.DB.Models['Attendence'].findAll({
-      where: [whereClause,{ employee_id: data.employee_id }],
+      where: [whereClause,{ employee_id: data.employee_id ,platform_id:authUser.platform_id}],
       // include: { 
       //   model:User,
       //   where: {
@@ -205,7 +223,7 @@ export class AttendenceService {
     
     let count = await this.DB.Models['Attendence'].count({
         where: 
-        {employee_id: data.employee_id },
+        {employee_id: data.employee_id,platform_id:authUser.platform_id },
       });
 
     if (totalUser) {
@@ -217,4 +235,66 @@ export class AttendenceService {
       };
     }
   }
+  async update(data, authUser){
+    let updateData:any={};
+    if (authUser.role != 2) {
+      return {
+        status: false,
+        message: 'Not an Admin',
+      };
+    }
+    if( (data.status=='Present' || data.status=='Absent' ) && data.leave_type!= null){
+      return{
+        status:false,
+        message:`to use leave_type you must select status as 'Leave`
+      }
+    }
+    if(data.status){
+      updateData.status=data.status
+    }
+    if(data.leave_type){
+      updateData.leave_type=data.leave_type
+    }
+    if(data.check=='checkin'){
+      updateData.checkin=new Date()
+    }
+    if(data.check=='checkout'){
+      updateData.checkout=new Date()
+    }
+    console.log(updateData);
+    
+    let checkAttendenceID=await this.DB.Models['Attendence'].findOne({
+      where:{
+        id:data.id,
+        platform_id:authUser.platform_id
+      }
+    })
+    if(!checkAttendenceID){
+      return{
+        status:false,
+        message:"Invalid Employee Id"
+      }
+    }
+    let updateAttendence=await this.DB.Models['Attendence'].update(
+      updateData
+    ,
+    {
+      where:{
+        id:data.id,
+        platform_id:authUser.platform_id
+      }
+    })
+    if(updateAttendence){
+    return{
+      status:true,
+      message:"Attendence updated successfully"
+    }
+  }
+  else{
+    return{
+    status:false,
+    message:"Not successful"
+  }
+}
+}
 }
