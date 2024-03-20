@@ -1,8 +1,10 @@
 import {
+  BelongsTo,
   Column,
   CreatedAt,
   DataType,
   DeletedAt,
+  ForeignKey,
   HasMany,
   Model,
   Table,
@@ -13,10 +15,11 @@ import { Deduction } from './Deduction.model';
 import { Salary } from './Salary.model';
 import { Payroll } from './Payroll.model';
 import { FinancialTransaction } from './FinancialTransactions.model';
+import { Platform } from './Platform.model';
 
 @Table({
   tableName: 'users',
-  // paranoid: true,
+  paranoid: true,
 })
 export class User extends Model {
   @Column({
@@ -26,6 +29,12 @@ export class User extends Model {
     autoIncrement: true,
   })
   id: number;
+
+  @ForeignKey(() => Platform)
+    @Column({
+      allowNull: false,
+    })
+  platform_id: number;
 
   @Column
   email: string;
@@ -82,10 +91,10 @@ export class User extends Model {
   departement: string;
 
   @Column
-  designation:string
-
-  @Column
   join_date:Date
+
+  @BelongsTo(()=>Platform)
+  platform:Platform
   
   @HasMany(() => Attendence)
   attendence: Attendence;

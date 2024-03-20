@@ -16,7 +16,7 @@ export class LoginService {
   ) {}
   async login(getLogin, res) {
     const user = await this.DB.Models['User'].findOne({
-      attributes: ['id', 'firstname','lastname', 'email', 'phone', 'role'],
+      attributes: ['id', 'firstname','lastname', 'email', 'phone', 'role','platform_id'],
       where:{ email: getLogin.email }
     });
     // console.log("user detail to find role",user);

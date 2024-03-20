@@ -1,12 +1,15 @@
 import {
+  BelongsTo,
     Column,
     CreatedAt,
     DataType,
     DeletedAt,
+    ForeignKey,
     Model,
     Table,
     UpdatedAt,
   } from 'sequelize-typescript';
+import { Platform } from './Platform.model';
   
   @Table({
     tableName: 'customers',
@@ -20,6 +23,12 @@ import {
       autoIncrement: true,
     })
     id: number;
+
+    @Column({
+      allowNull: false,
+    })
+    @ForeignKey(() => Platform)
+    platform_id: number;
   
     @Column
     email: string;
@@ -50,6 +59,9 @@ import {
   
     @UpdatedAt
     updatedAt: Date;
+
+    @BelongsTo(()=>Platform)
+    platform:Platform
   
     @DeletedAt
     @Column({ type: DataType.DATE })

@@ -5,6 +5,7 @@ import {
     Controller,
     Get,
     Query,
+    Put,
   } from '@nestjs/common';
   import {
     ApiBadRequestResponse,
@@ -14,6 +15,7 @@ import {
     ApiUnauthorizedResponse,
   } from '@nestjs/swagger';
 import { AddAttendenceDto } from "src/app/dtos/attendence/AddAttendence.dto";
+import { UpdateAttendenceDto } from 'src/app/dtos/attendence/UpdateAttendence.dto';
 import { ViewAttendenceDto } from 'src/app/dtos/attendence/ViewAttendence.dto';
 import { AttendenceService } from "src/app/services/attendence/Attendence.service";
 import { AuthJwtGuard } from 'src/app/utils/auth/guards/AuthJwt.guard';
@@ -31,14 +33,22 @@ export class AttendenceController{
     @Post('add')
   async adminUserCreate(@Body() addAttendenceDto: AddAttendenceDto, @AuthUser() authUser) {
     let res = await this.attendenceService.addAttendence(
-      addAttendenceDto,
+      addAttendenceDto,authUser
     );
     return res;
   }
 
   @Get('view')
-  async view( @Query() viewAttendenceDto:ViewAttendenceDto){
-    let res=await this.attendenceService.view(viewAttendenceDto)
+  async view( @Query() viewAttendenceDto:ViewAttendenceDto, @AuthUser() authUser){
+    let res=await this.attendenceService.view(viewAttendenceDto,authUser);
     return res
+  }
+
+  @Put('update')
+  async update(@Body() updateAttendenceDto: UpdateAttendenceDto, @AuthUser() authUser) {
+    let res = await this.attendenceService.update(
+      updateAttendenceDto,authUser
+    );
+    return res;
   }
 }

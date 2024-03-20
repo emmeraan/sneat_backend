@@ -10,6 +10,7 @@ import {
   UpdatedAt,
 } from 'sequelize-typescript';
 import { User } from './User.model';
+import { Platform } from './Platform.model';
 
 @Table({
   tableName: 'attendence',
@@ -24,6 +25,12 @@ export class Attendence extends Model {
   })
   id: number;
 
+  @Column({
+    allowNull: false,
+  })
+  @ForeignKey(() => Platform)
+  platform_id: number;
+
   @ForeignKey(() => User)
   @Column
   employee_id: number;
@@ -34,14 +41,26 @@ export class Attendence extends Model {
   @Column
   checkout: Date;
 
-  @Column
-  status: string;
+  @Column({
+    type: DataType.ENUM,
+    values: ['Present', 'Absent','Leave'],
+  })
+  status: 'Present'| 'Absent'|'Leave';
+
+  @Column({
+    type: DataType.ENUM,
+    values: ['Paid', 'UnPaid'],
+  })
+  leave_type: 'Paid' | 'UnPaid'
 
   @CreatedAt
   createdAt: Date;
 
   @UpdatedAt
   updatedAt: Date;
+
+  @BelongsTo(()=>Platform)
+  platform:Platform
 
   @DeletedAt
   @Column({ type: DataType.DATE })

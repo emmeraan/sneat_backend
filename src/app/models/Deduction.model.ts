@@ -10,6 +10,7 @@ import {
     UpdatedAt,
   } from 'sequelize-typescript';
   import { User } from './User.model';
+import { Platform } from './Platform.model';
   
   @Table({
     tableName: 'deductions',
@@ -23,9 +24,17 @@ import {
       autoIncrement: true,
     })
     id: number;
+
+    @Column({
+      allowNull: false,
+    })
+    @ForeignKey(() => Platform)
+    platform_id: number;
   
     @ForeignKey(() => User)
-    @Column
+    @Column({
+      allowNull: false,
+    })
     employee_id: number;
   
     @Column
@@ -35,16 +44,16 @@ import {
     amount: number;
 
     @Column
-    start_date: Date;
+    date: Date;
 
-    @Column
-    end_date: Date;
-  
     @CreatedAt
     createdAt: Date;
   
     @UpdatedAt
     updatedAt: Date;
+
+    @BelongsTo(()=>Platform)
+    platform:Platform
   
     @DeletedAt
     @Column({ type: DataType.DATE })

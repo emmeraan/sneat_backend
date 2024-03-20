@@ -36,4 +36,13 @@ export class SignupDto {
   @IsNotEmpty()
   @Length(5, 20)
   password: string;
+
+  @ApiProperty({
+    description: 'Enter a platform name',
+    example: 'xyzcompany',
+    required: true,
+  })
+  @IsNotEmpty()
+  @Length(2, 20)
+  platform_name: string;
 }

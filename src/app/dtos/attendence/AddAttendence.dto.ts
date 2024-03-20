@@ -35,5 +35,12 @@ export class AddAttendenceDto{
     @IsNotEmpty()
     @IsEnum(StatusTYPE)
     status: string
+
+    @ApiProperty({
+        description: 'date of attendence',
+        example: '2024-03-01',
+        required: true
+    })
+    date: string
 }
 

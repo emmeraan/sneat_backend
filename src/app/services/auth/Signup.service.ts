@@ -12,8 +12,19 @@ export class SignupService {
   constructor(private readonly DB: DatabaseService) {}
 
   async Register(signup, res) {
-    console.log('checkk');
-    
+        let checkPlatform= await this.DB.Models['Platform'].findOne({
+          where:[{
+            name:signup.platform_name
+          }]
+        })
+        console.log(checkPlatform);
+        
+        if(!checkPlatform){
+          res.status(400).json({
+            status: 'false',
+            message: 'Not valid platform name',
+          });
+        }
         let existmail = await this.DB.Models['User'].findAll({
           where: [{ email: signup.email }],
         });
@@ -32,6 +43,7 @@ export class SignupService {
               email: signup.email,
               password: check,
               role: 1,
+              platform_id:checkPlatform.id
             });
             if (create) {
               res.status(200).json({

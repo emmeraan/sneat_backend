@@ -11,6 +11,7 @@ import { UserModule } from '../user/User.module';
 import { AdminModule } from '../admin/Admin.module';
 import { EmployeeModule } from '../employee/Employee.module';
 import { AttendenceModule } from '../attendence/Attendence.module';
+import { SalaryModule } from '../salary/Salary.module';
 
 @Module({
   imports: [
@@ -23,7 +24,9 @@ import { AttendenceModule } from '../attendence/Attendence.module';
     UserModule,
     AdminModule,
     EmployeeModule,
-    AttendenceModule
+    AttendenceModule,
+    SalaryModule
+    
   ],
   controllers: [],
   providers: [

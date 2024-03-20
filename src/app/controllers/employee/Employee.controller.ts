@@ -22,6 +22,7 @@ import {
 } from '@nestjs/swagger';
 import { CreateEmployeeDto } from 'src/app/dtos/employee/CreateEmployee.dto';
 import { UpdateEmployeeDto } from 'src/app/dtos/employee/UpdateEmployee.dto';
+import { AddSalaryDto } from 'src/app/dtos/salary/AddSalary.dto';
 import { EmployeeService } from 'src/app/services/employee/Employee.service';
 import { AuthJwtGuard } from 'src/app/utils/auth/guards/AuthJwt.guard';
 import { AuthUser } from 'src/app/utils/decorators/AuthUser.decorator';
@@ -67,7 +68,7 @@ export class EmployeeController {
     return res;
   }
   @Post('create')
-  async adminUserCreate(@Body() data: CreateEmployeeDto, @AuthUser() authUser) {
+  async adminUserCreate(@Body() data: AddSalaryDto, @AuthUser() authUser) {
     let res = await this.employeeService.create(
       data,
       authUser,

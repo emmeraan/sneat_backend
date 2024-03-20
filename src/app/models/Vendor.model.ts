@@ -1,14 +1,18 @@
 import {
+  BelongsTo,
     Column,
     CreatedAt,
     DataType,
     DeletedAt,
+    ForeignKey,
     HasMany,
     Model,
     Table,
     UpdatedAt,
   } from 'sequelize-typescript';
 import { Product } from './Product.model';
+import { Platform } from './Platform.model';
+import { Attendence } from './Attendence.model';
   
   @Table({
     tableName: 'vendors',
@@ -22,6 +26,12 @@ import { Product } from './Product.model';
       autoIncrement: true,
     })
     id: number;
+
+    @Column({
+      allowNull: false,
+    })
+    @ForeignKey(() => Platform)
+    platform_id: number;
   
     @Column
     email: string;
@@ -52,7 +62,10 @@ import { Product } from './Product.model';
   
     @UpdatedAt
     updatedAt: Date;
-  
+
+    @BelongsTo(()=>Platform)
+    platform:Platform
+
     @DeletedAt
     @Column({ type: DataType.DATE })
     deletedAt: Date;
