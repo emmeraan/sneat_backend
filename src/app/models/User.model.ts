@@ -32,7 +32,7 @@ export class User extends Model {
   id: number;
 
   @ForeignKey(() => Platform)
-    @Column({
+  @Column({
       allowNull: false,
     })
   platform_id: number;
@@ -88,8 +88,9 @@ export class User extends Model {
   @Column
   position: string;
 
+  @ForeignKey(() => Departments)
   @Column
-  department: string;
+  department_id: number;
 
   @Column
   join_date:Date
@@ -112,7 +113,7 @@ export class User extends Model {
   @HasMany(() => FinancialTransaction)
   financialTransaction: FinancialTransaction;
 
-  @HasMany(() => Departments)
+  @BelongsTo(() => Departments)
   departments: Departments;
 
   @CreatedAt
