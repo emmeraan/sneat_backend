@@ -11,6 +11,7 @@ import {
   } from 'sequelize-typescript';
   import { User } from './User.model';
 import { Platform } from './Platform.model';
+import { FinancialTransaction } from './FinancialTransactions.model';
   
   @Table({
     tableName: 'deductions',
@@ -36,12 +37,19 @@ import { Platform } from './Platform.model';
       allowNull: false,
     })
     employee_id: number;
+
+    @ForeignKey(() => FinancialTransaction)
+    @Column
+    transaction_id: number;
   
     @Column
     deduction_type: string;
 
     @Column
-    amount: number;
+    transaction_amount:number
+
+    @Column
+    deduction_amount:number;
 
     @Column
     date: Date;
@@ -52,14 +60,17 @@ import { Platform } from './Platform.model';
     @UpdatedAt
     updatedAt: Date;
 
-    @BelongsTo(()=>Platform)
-    platform:Platform
-  
     @DeletedAt
     @Column({ type: DataType.DATE })
     deletedAt: Date;
-  
+
+    @BelongsTo(()=>Platform)
+    platform:Platform
+
     @BelongsTo(() => User)
     user: User;
+
+    @BelongsTo(() => FinancialTransaction)
+    financialTransaction: FinancialTransaction;
   }
   

@@ -5,12 +5,14 @@ import {
     DataType,
     DeletedAt,
     ForeignKey,
+    HasMany,
     Model,
     Table,
     UpdatedAt,
   } from 'sequelize-typescript';
   import { User } from './User.model';
 import { Platform } from './Platform.model';
+import { Deduction } from './Deduction.model';
 
   @Table({
     tableName: 'Financial_transaction',
@@ -57,7 +59,10 @@ import { Platform } from './Platform.model';
     remaining_amount : number;
 
     @Column
-    Loan_manager: string;
+    loan_manager: string;
+
+    @Column
+    deduct_percent:number
   
     @CreatedAt
     createdAt: Date;
@@ -67,6 +72,9 @@ import { Platform } from './Platform.model';
 
     @BelongsTo(()=>Platform)
     platform:Platform
+
+    @HasMany(() => Deduction)
+    deduction: Deduction;
   
     @DeletedAt
     @Column({ type: DataType.DATE })

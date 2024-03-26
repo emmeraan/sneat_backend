@@ -42,6 +42,9 @@ import { Platform } from './Platform.model';
     medical_allowence: number;
 
     @Column
+    travel_allowence: number;
+
+    @Column
     bonus: number;
 
     @Column({

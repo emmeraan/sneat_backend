@@ -27,15 +27,30 @@ export class FinancialTransactionDto{
 
       @ApiProperty({
         description: 'Enter date Employee financial transaction added ',
-        example: '2022-08-01',
+        example: '2024-03-01',
         required: true,
       })
       transaction_date: string;
 
       @ApiProperty({
-        description: 'Enter the policy entered during financial transaction ',
-        example: 'reason ABC',
+        description: `Enter the policy of return 'Cash_payment','Salary_deduction' `,
+        example: 'Salary_deduction',
         required: true,
       })
+      @IsEnum(['Cash_payment','Salary_deduction'])
       return_policy: string;
+
+      @ApiProperty({
+        description: 'Enter loan manager ',
+        example: 'user1',
+        required: true,
+      })
+      loan_manager: string;
+
+      @ApiProperty({
+        description:'Amount percent to be deduct from every Salary',
+        example:10,
+        required:true
+      })
+      deduct_percent:number
 }
