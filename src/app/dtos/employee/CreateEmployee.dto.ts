@@ -81,11 +81,11 @@ export class CreateEmployeeDto{
   position: string;
 
   @ApiProperty({
-    description: 'departement of user',
+    description: 'department of user',
     example: 'SQA',
     required: false,
   })
-  departement: string;
+  department: string;
 
   // @ApiProperty({
   //   description: 'Status of employee work. Retired, Terminated, Active',

@@ -16,6 +16,7 @@ import { Salary } from './Salary.model';
 import { Payroll } from './Payroll.model';
 import { FinancialTransaction } from './FinancialTransactions.model';
 import { Platform } from './Platform.model';
+import { Departments } from './Departments.model';
 
 @Table({
   tableName: 'users',
@@ -88,7 +89,7 @@ export class User extends Model {
   position: string;
 
   @Column
-  departement: string;
+  department: string;
 
   @Column
   join_date:Date
@@ -110,6 +111,9 @@ export class User extends Model {
 
   @HasMany(() => FinancialTransaction)
   financialTransaction: FinancialTransaction;
+
+  @HasMany(() => Departments)
+  departments: Departments;
 
   @CreatedAt
   createdAt: Date;
