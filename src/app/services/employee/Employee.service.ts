@@ -101,7 +101,6 @@ export class EmployeeService {
       departement: data.departement,
       image: data.image,
       gender: data.gender,
-      city: data.city,
       join_date: data.join_date,
       martial_status: data.martial_status,
       employment_Status: data.employment_Status,

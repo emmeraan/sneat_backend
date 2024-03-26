@@ -23,9 +23,9 @@ export class CalculateSalaryDto{
       // year: number;
 
       @ApiProperty({
-        description: 'Enter update amount % of that month',
+        description: 'Enter amount percent want to deduct of that month salary',
         example: 10,
         required: false,
       })
-      amountPercent: number;
+      deduct_percent: number;
 }

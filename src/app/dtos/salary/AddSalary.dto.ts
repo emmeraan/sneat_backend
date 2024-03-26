@@ -1,39 +1,61 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { CreateEmployeeDto } from "../employee/CreateEmployee.dto";
+import { IsEnum, IsNumber, IsString } from "class-validator";
 
 export class AddSalaryDto extends CreateEmployeeDto{
     @ApiProperty({
         description: 'Enter salary of employee',
-        example: 2222,
+        example: 100,
         required: true,
       })
+      @IsNumber()
       basic: number;
 
-      @ApiProperty({
-        description: 'Enter medical allowence if any of employee',
-        example: 2222,
-        required: true,
-      })
-      medical_allowence: number;
+      // @ApiProperty({
+      //   description: 'Enter medical allowence if any of employee',
+      //   example: 100,
+      //   required: false,
+      // })
+      // @IsNumber()
+      // medical_allowence: number;
 
-      @ApiProperty({
-        description: 'Enter medical allowence if any of employee',
-        example: 2222,
-        required: true,
-      })
-      bonus: number;
+      // @ApiProperty({
+      //   description: 'Enter travel allowence if any of employee',
+      //   example: 100,
+      //   required: false,
+      // })
+      // @IsNumber()
+      // travel_allowence: number;
+
+      // @ApiProperty({
+      //   description: 'Enter medical allowence if any of employee',
+      //   example: 100,
+      //   required: false,
+      // })
+      // @IsNumber()
+      // bonus: number;
 
       @ApiProperty({
         description: 'Enter start date of salary employee',
-        example: '2022-08-01',
+        example: '2024-01-01',
         required: true,
       })
-      start_date: number;
+      @IsString()
+      start_date: string;
 
       @ApiProperty({
         description: 'Enter start date of salary employee',
-        example: '2022-08-01',
+        example: '2022-12-25',
         required: true,
       })
-      end_date: number;
+      @IsString()
+      end_date: string;
+
+      @ApiProperty({
+        description: 'Salary type of employee',
+        example: 'Monthly',
+        required: true,
+      })
+      @IsEnum(['Monthly','Weekly','Daily'])
+      salary_type:string
 }

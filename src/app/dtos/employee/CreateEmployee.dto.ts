@@ -1,14 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
-  IsDate,
-  IsDateString,
   IsEmail,
-  IsEnum,
-  IsNotEmpty,
   IsNumber,
   IsString,
 } from 'class-validator';
-import { AddSalaryDto } from '../salary/AddSalary.dto';
 
 export class CreateEmployeeDto{
   @ApiProperty({
@@ -38,8 +33,9 @@ export class CreateEmployeeDto{
   @ApiProperty({
     description: 'image',
     example: 'xyz',
-    required: true,
+    required: false,
   })
+  @IsString()
   image: string;
 
   @ApiProperty({
@@ -47,7 +43,8 @@ export class CreateEmployeeDto{
     example: '2022-04-01',
     required: false,
   })
-  @IsDateString()
+  @IsString()
+  // @IsDateString()
   DateOfBirth: string;
 
   @ApiProperty({
@@ -60,7 +57,7 @@ export class CreateEmployeeDto{
 
   @ApiProperty({
     description: 'cnic number of user',
-    example: 3321,
+    example: 332111111111,
     required: false,
   })
   @IsNumber()
@@ -71,6 +68,7 @@ export class CreateEmployeeDto{
     example: 'house 123',
     required: false,
   })
+  @IsString()
   address: string;
 
   @ApiProperty({
@@ -78,6 +76,7 @@ export class CreateEmployeeDto{
     example: 'HR',
     required: false,
   })
+  @IsString()
   position: string;
 
   @ApiProperty({
@@ -85,7 +84,8 @@ export class CreateEmployeeDto{
     example: 'SQA',
     required: false,
   })
-  department: string;
+  @IsString()
+  departement: string;
 
   // @ApiProperty({
   //   description: 'Status of employee work. Retired, Terminated, Active',
@@ -99,6 +99,7 @@ export class CreateEmployeeDto{
     example: 'Married',
     required: false,
   })
+  @IsString()
   martial_status: string;
 
   @ApiProperty({
@@ -106,28 +107,15 @@ export class CreateEmployeeDto{
     example: '01-02-2022',
     required: true,
   })
+  @IsString()
   join_date: string;
-
-  @ApiProperty({
-    description: 'city of employee belong',
-    example: 'city',
-    required: false,
-  })
-  city: string
 
   @ApiProperty({
     description: 'gender of employee',
     example: 'Male',
     required: false,
   })
+  @IsString()
   gender:string
-
-  @ApiProperty({
-    description: 'Salary type of employee',
-    example: 'Monthly',
-    required: true,
-  })
-  @IsEnum(['Monthly','Weekly','Daily'])
-  salary_type:string
 }
 
