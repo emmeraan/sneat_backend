@@ -16,6 +16,7 @@ import {
   } from '@nestjs/swagger';
 import { AddAttendenceDto } from "src/app/dtos/attendence/AddAttendence.dto";
 import { UpdateAttendenceDto } from 'src/app/dtos/attendence/UpdateAttendence.dto';
+import { ViewAllAttendanceDto } from 'src/app/dtos/attendence/ViewAllAteendence.dto';
 import { ViewAttendenceDto } from 'src/app/dtos/attendence/ViewAttendence.dto';
 import { AttendenceService } from "src/app/services/attendence/Attendence.service";
 import { AuthJwtGuard } from 'src/app/utils/auth/guards/AuthJwt.guard';
@@ -51,4 +52,10 @@ export class AttendenceController{
     );
     return res;
   }
+  @Get('viewall')
+  async viewall( @Query() viewAttendenceDto:ViewAllAttendanceDto, @AuthUser() authUser){
+    let res=await this.attendenceService.viewAllAttendance(viewAttendenceDto,authUser);
+    return res
+  } 
+
 }
