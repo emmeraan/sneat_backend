@@ -19,7 +19,7 @@ export class DatabaseModule {
             username: process.env.DATABASE_USER,
             password: process.env.DATABASE_PASSWORD,
             database: process.env.DATABASE_NAME,
-            synchronize: false,
+            synchronize: true,
             autoLoadModels: true,
             query:{
                 raw:true, 
@@ -29,6 +29,7 @@ export class DatabaseModule {
             //   force: false, // Set to false to prevent dropping tables
             // },
             models: Models,
+            logging: false
         }),
         KnexModule.forRoot({
           config: {

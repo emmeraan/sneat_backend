@@ -80,7 +80,7 @@ export class CreateEmployeeDto{
   position: string;
 
   @ApiProperty({
-    description: 'departement of user',
+    description: 'department of user',
     example: 'SQA',
     required: false,
   })

@@ -5,6 +5,7 @@ import { PaginationHelper } from 'src/app/utils/helpers/Pagination.helper';
 import { User } from 'src/app/models/User.model';
 import { Attendence } from 'src/app/models/Attendence.model';
 const moment = require('moment');
+import { ViewAllAttendanceDto } from 'src/app/dtos/attendence/ViewAllAteendence.dto';
 @Injectable()
 export class AttendenceService {
   constructor(private readonly DB: DatabaseService) {}
@@ -329,4 +330,68 @@ export class AttendenceService {
       };
     }
   }
+  else{
+    return{
+    status:false,
+    message:"Not successful"
+  }
+}
+}
+async viewAllAttendance(data: ViewAllAttendanceDto, authUser) {
+  if (authUser.role !== 2) {
+    return {
+      status: false,
+      message: 'Not an Admin',
+    };
+  }
+  const offset = (data.page - 1) * data.limit;
+  var fromDate = data.fromDate; // Assuming fromDate and toDate are provided in data
+  var toDate = data.toDate;
+
+  let whereClause: any = {};
+  if(data.fromDate && data.toDate){
+    whereClause.checkin = {
+      [Op.between]: [fromDate, toDate],
+    };
+  }
+  if (data.status) {
+    whereClause.status = data.status;
+  }
+
+  if (data.employee_id) {
+    whereClause.employee_id = data.employee_id;
+  }
+
+  const attendances = await this.DB.Models['Attendence'].findAll({
+    attributes: ['platform_id', 'employee_id', 'status', 'leave_type', 'checkin', 'checkout'],
+    include: [{
+      model: User,
+      attributes: ['firstname', 'lastname', 'email', 'address', 'phone', 'cnic', 'role', 'position'],
+    }],
+    where: whereClause,
+    order: [['checkin', 'DESC']],
+    raw: true,
+    offset: offset,
+    limit: PaginationHelper.getLimit(data.limit),
+  });
+
+  if (!attendances || attendances.length === 0) {
+    return {
+      status: false,
+      message: 'No attendance records found',
+    };
+  }
+
+  const count = await this.DB.Models['Attendence'].count({
+    where: { 
+      platform_id: authUser.platform_id,
+      ...whereClause,
+    },
+  });
+
+  const result = PaginationHelper.Paginate(count, data.page, data.limit, attendances);
+
+  return result;
+}
+
 }

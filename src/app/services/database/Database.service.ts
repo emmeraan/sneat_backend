@@ -10,6 +10,7 @@ import { User } from 'src/app/models/User.model';
 import { Vendor } from 'src/app/models/Vendor.model';
 import { ModelNames } from 'src/app/models/index.model';
 import { Platform } from 'src/app/models/Platform.model';
+import { Departments } from 'src/app/models/Departments.model';
 
 @Injectable()
 export class DatabaseService {
@@ -25,7 +26,8 @@ export class DatabaseService {
     @InjectModel(Deduction) private readonly deduction: Deduction,
     @InjectModel(Payroll) private readonly payroll: Payroll, 
     @InjectModel(FinancialTransaction) private readonly financialTransaction: FinancialTransaction, 
-    @InjectModel(Platform) private readonly platform: Platform
+    @InjectModel(Platform) private readonly platform: Platform,
+    @InjectModel(Departments) private readonly departments: Departments
   ) {    
     for (const index in ModelNames) {
       this.Models[ModelNames[index]] = this[ModelNames[index].charAt(0).toLowerCase() + ModelNames[index].slice(1)]
