@@ -18,6 +18,7 @@ import { Customer } from './Customer.model';
 import { Product } from './Product.model';
 import { Vendor } from './Vendor.model';
 import { Departments } from './Departments.model';
+import { Position } from './position.model';
   
   @Table({
     tableName: 'platforms',
@@ -68,6 +69,9 @@ import { Departments } from './Departments.model';
 
     @HasMany(() => Departments)
     departments: Departments;
+
+    @HasMany(() => Position)
+    position: Position;
 
   
     @CreatedAt
