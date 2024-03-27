@@ -17,6 +17,7 @@ import { Payroll } from './Payroll.model';
 import { FinancialTransaction } from './FinancialTransactions.model';
 import { Platform } from './Platform.model';
 import { Departments } from './Departments.model';
+import { Position } from './position.model';
 
 @Table({
   tableName: 'users',
@@ -85,12 +86,13 @@ export class User extends Model {
   @Column
   martial_status:string
 
-  @Column
-  position: string;
-
   @ForeignKey(() => Departments)
   @Column
   department_id: number;
+
+  @ForeignKey(() => Position)
+  @Column
+  position_id: number;
 
   @Column
   join_date:Date
@@ -115,6 +117,9 @@ export class User extends Model {
 
   @BelongsTo(() => Departments)
   departments: Departments;
+
+  @BelongsTo(() => Position)
+  position: Position;
 
   @CreatedAt
   createdAt: Date;

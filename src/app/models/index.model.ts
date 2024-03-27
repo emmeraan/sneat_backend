@@ -9,12 +9,13 @@ import { User } from "./User.model";
 import { Vendor } from "./Vendor.model";
 import { Platform } from "./Platform.model";
 import { Departments } from "./Departments.model";
+import { Position } from "./position.model";
 
 
 export const Models = [
-    User, Vendor, Customer, Product, Attendence, Salary, Deduction, Payroll, FinancialTransaction,Platform , Departments
+    User, Vendor, Customer, Product, Attendence, Salary, Deduction, Payroll, FinancialTransaction,Platform , Departments , Position
 ];
 
 export const ModelNames = [
-    'User', 'Vendor', 'Customer', 'Product', 'Attendence','Salary','Deduction', 'Payroll', 'FinancialTransaction','Platform','Departments'
+    'User', 'Vendor', 'Customer', 'Product', 'Attendence','Salary','Deduction', 'Payroll', 'FinancialTransaction','Platform','Departments','Position'
 ]
