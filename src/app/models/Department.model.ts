@@ -18,7 +18,7 @@ import { Position } from './position.model';
     tableName: 'departments',
     paranoid: true,
   })
-  export class Departments extends Model {
+  export class Department extends Model {
     @Column({
       primaryKey: true,
       type: DataType.INTEGER,
@@ -51,6 +51,9 @@ import { Position } from './position.model';
 
     @HasMany(() => User)
     user: User;
+
+    @HasMany(() => Position)
+    position: Position;
   
   }
   

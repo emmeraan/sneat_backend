@@ -12,7 +12,7 @@ import {
   } from 'sequelize-typescript';
   import { Platform } from './Platform.model';
 import { User } from './User.model';
-import { Departments } from './Departments.model';
+import { Department } from './Department.model';
   
   @Table({
     tableName: 'position',
@@ -33,6 +33,11 @@ import { Departments } from './Departments.model';
     @ForeignKey(() => Platform)
     platform_id: number;
 
+    @Column({
+      allowNull: false,
+    })
+    @ForeignKey(() => Department)
+    departement_id: number;
 
     @Column
     name: string;
@@ -49,6 +54,9 @@ import { Departments } from './Departments.model';
 
     @BelongsTo(()=>Platform)
     platform:Platform
+
+    @BelongsTo(()=>Department)
+    department:Department
 
 
     @HasMany(() => User)

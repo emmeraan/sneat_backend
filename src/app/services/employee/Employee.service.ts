@@ -98,7 +98,7 @@ export class EmployeeService {
       phone: data.phone,
       address: data.address,
       position: data.position,
-      departement: data.departement,
+      departement_id: data.departement_id,
       image: data.image,
       gender: data.gender,
       join_date: data.join_date,
@@ -210,8 +210,8 @@ export class EmployeeService {
     if (data.position) {
       updatedata.position = data.position;
     }
-    if (data.departement) {
-      updatedata.departement = data.departement;
+    if (data.departement_id) {
+      updatedata.departement_id = data.departement_id;
     }
     if (data.image) {
       updatedata.image = data.image;

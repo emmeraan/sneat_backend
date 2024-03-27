@@ -138,16 +138,44 @@ export class SalaryService {
       limit: 1,
     });
     let updateFinancialTransaction;
-    let newAmount;
+    let calculatedAmount;
     let latestTransaction;
-    if (data.amountPercent > 0) {
-      let transitAmount = calculateFinancialTransactions
+    console.log(calculateFinancialTransactions);
+    
+    let deduct_percent = data?.deduct_percent
+      ? data?.deduct_percent
+      : (calculateFinancialTransactions?.deduct_percent? calculateFinancialTransactions.deduct_percent : 0);
+    console.log(deduct_percent,"percent of deduction user applied or in database");
+    
+    if (deduct_percent > 0) {
+      console.log("checking deduct");
+      
+      let checkLoanAmount = calculateFinancialTransactions
         ? calculateFinancialTransactions.remaining_amount
         : 0; //500
-      amountToSubtractFinancialTransaction =
-        (data.amountPercent / 100) * transitAmount; // 100
+        if(data?.deduct_percent){
+          amountToSubtractFinancialTransaction =
+        (deduct_percent / 100) * (calculateFinancialTransactions?.remaining_amount?calculateFinancialTransactions.remaining_amount:0); 
+        console.log("Selected the deduct percent");
+        // 100
+        }else{
+          amountToSubtractFinancialTransaction =
+        (deduct_percent / 100) * (calculateFinancialTransactions?.amount?calculateFinancialTransactions.amount:0); // 100
+        console.log("Selected the table defined percent");
+        
+        }
+      // amountToSubtractFinancialTransaction =
+      //   (deduct_percent / 100) * (calculateFinancialTransactions?.amount?calculateFinancialTransactions.amount:0); // 100
       // let checkUserType=checkEmployee.type
-      newAmount = transitAmount - amountToSubtractFinancialTransaction; //500 - 100 => 400
+      console.log(amountToSubtractFinancialTransaction,"amount to subtract from financial transaction");
+      if(amountToSubtractFinancialTransaction>checkLoanAmount){
+        return{
+          status:false,
+          message:"Amount to deduct is more than amount remaining"
+        }
+      }
+      calculatedAmount = (checkLoanAmount - amountToSubtractFinancialTransaction)?(checkLoanAmount - amountToSubtractFinancialTransaction):0; //500 Loan - 40 return => 460
+      console.log(calculatedAmount,"Calculated amount greater or less");
       //to find latest created Row in database
       latestTransaction = await this.DB.Models['FinancialTransaction'].findOne({
         where: {
@@ -161,7 +189,7 @@ export class SalaryService {
         updateFinancialTransaction = await this.DB.Models[
           'FinancialTransaction'
         ].update(
-          { remaining_amount: newAmount },
+          { remaining_amount: calculatedAmount },
           {
             where: {
               id: latestTransaction.id,
@@ -173,7 +201,7 @@ export class SalaryService {
         );
       }
     }
-    if (newAmount > 0) {
+    if (calculatedAmount > 0) {
       await this.DB.Models['Deduction'].create({
         employee_id: data.employee_id,
         platform_id: authUser.platform_id,
@@ -197,12 +225,12 @@ export class SalaryService {
       where: {
         platform_id: authUser.platform_id,
         employee_id: data.employee_id,
-        [Op.and]: [
-          // Check if the given month falls within the specified duration
-          Sequelize.literal(
-            `YEAR(start_date) <= ${yearToFind} AND YEAR(end_date) >= ${yearToFind} AND MONTH(start_date) <= ${monthToFind} AND MONTH(end_date) >= ${monthToFind}`,
-          ),
-        ],
+        // [Op.and]: [
+        //   // Check if the given month falls within the specified duration
+        //   Sequelize.literal(
+        //     `YEAR(start_date) <= ${yearToFind} AND YEAR(end_date) >= ${yearToFind} AND MONTH(start_date) <= ${monthToFind} AND MONTH(end_date) >= ${monthToFind}`,
+        //   ),
+        // ],
       },
     });
     if (!checkSalary) {
@@ -248,7 +276,6 @@ export class SalaryService {
         date: new Date(),
       });
     }
-
     let Payroll =
       totalMonthSalary -
       attendenceAbsentAmount -
@@ -329,6 +356,7 @@ export class SalaryService {
         ? calculateCashPaymentFinancialTransactions.remaining_amount
         : 0,
       attendence_absent_amount: attendenceAbsentAmount,
+      deduction_percent: Number(deduct_percent),
       payroll: Payroll,
       no_of_days_count: numberOfDays,
       Attendence_Data: showAllAttendance,
@@ -594,24 +622,26 @@ export class SalaryService {
       limit: 1,
     });
     let updateFinancialTransaction;
-    let newAmount;
+    let calculatedAmount;
     let latestTransaction;
-    let deduct_percent = data.deduct_percent
-      ? data.deduct_percent
-      : calculateFinancialTransactions.deduct_percent;
+    let deduct_percent = data?.deduct_percent
+      ? data?.deduct_percent
+      : (calculateFinancialTransactions?.deduct_percent? calculateFinancialTransactions.deduct_percent : 0);
+    console.log(deduct_percent,"percent of deduction user applied or in database");
+    
 
     if (deduct_percent > 0) {
-      let transitAmount = calculateFinancialTransactions
-        ? calculateFinancialTransactions.amount
+      let checkLoanAmount = calculateFinancialTransactions
+        ? calculateFinancialTransactions.remaining_amount
         : 0; //500
 
-      amountToSubtractFinancialTransaction =
-        (deduct_percent / 100) * transitAmount; // 100
-        console.log("Amount Loan",calculateFinancialTransactions.amount);
-        console.log("Amount to deduct from salary",amountToSubtractFinancialTransaction);
-        
+        amountToSubtractFinancialTransaction =
+        (deduct_percent / 100) * (calculateFinancialTransactions?.amount?calculateFinancialTransactions.amount:0); // 100
       // let checkUserType=checkEmployee.type
-      newAmount = transitAmount - amountToSubtractFinancialTransaction; //500 - 100 => 400
+      console.log(amountToSubtractFinancialTransaction,"amount to subtract from financial transaction");
+      
+      calculatedAmount = (checkLoanAmount - amountToSubtractFinancialTransaction)?(checkLoanAmount - amountToSubtractFinancialTransaction):0; //500 Loan - 40 return => 460
+      console.log(calculatedAmount,"Calculated amount"); //500 - 100 => 400
       //to find latest created Row in database
       latestTransaction = await this.DB.Models['FinancialTransaction'].findOne({
         where: {
@@ -744,7 +774,7 @@ export class SalaryService {
         ? calculateCashPaymentFinancialTransactions.remaining_amount
         : 0,
       attendence_absent_amount: attendenceAbsentAmount,
-      deduction_percent: calFinancTransactions.deduct_percent,
+      deduction_percent: Number(deduct_percent),
       payroll: Payroll,
       no_of_days_count: numberOfDays,
       Attendence_Data: showAllAttendance,

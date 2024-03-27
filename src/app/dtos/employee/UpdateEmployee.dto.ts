@@ -74,11 +74,11 @@ export class UpdateEmployeeDto {
   position: string;
 
   @ApiProperty({
-    description: 'departement of user',
-    example: 'SQA',
+    description: 'departement id of employee',
+    example: 1,
     required: false,
   })
-  departement: string;
+  departement_id: number;
 
   @ApiProperty({
     description: 'designation of user',
