@@ -665,12 +665,12 @@ export class SalaryService {
       where: {
         platform_id: authUser.platform_id,
         employee_id: data.employee_id,
-        [Op.and]: [
-          // Check if the given month falls within the specified duration
-          Sequelize.literal(
-            `YEAR(start_date) <= ${yearToFind} AND YEAR(end_date) >= ${yearToFind} AND MONTH(start_date) <= ${monthToFind} AND MONTH(end_date) >= ${monthToFind}`,
-          ),
-        ],
+        // [Op.and]: [
+        //   // Check if the given month falls within the specified duration
+        //   Sequelize.literal(
+        //     `YEAR(start_date) <= ${yearToFind} AND YEAR(end_date) >= ${yearToFind} AND MONTH(start_date) <= ${monthToFind} AND MONTH(end_date) >= ${monthToFind}`,
+        //   ),
+        // ],
       },
     });
     if (!checkSalary) {

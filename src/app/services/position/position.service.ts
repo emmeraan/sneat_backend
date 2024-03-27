@@ -11,7 +11,7 @@ import { CreatePositionDto } from "src/app/dtos/position/CreatePosition.dto";
 export class PositionService {
   constructor(private readonly DB:DatabaseService,
     ){}
-    async createPosition(data: CreatePositionDto, authUser) {
+    async createPosition(data, authUser) {
       
         if (authUser.role !== 2) {
           return {
@@ -22,6 +22,16 @@ export class PositionService {
         let findPosition = await this.DB.Models['Position'].findOne({
           where: { name: data.name,platform_id:authUser.platform_id },
         });
+        console.log("checking");
+        let checkDepartmentId = await this.DB.Models['Department'].findOne({
+          where: { id:data.department_id },
+        });
+        if(!checkDepartmentId){
+          return{
+            status:false,
+            message:"Not valid department ID"
+          }
+        }
         if (findPosition) {
           return {
             status: false,
@@ -31,6 +41,7 @@ export class PositionService {
       
         let createNewPosition = await this.DB.Models['Position'].create({
           platform_id: authUser.platform_id,
+          department_id:data.department_id,
           name: data.name,
         });
       
@@ -46,81 +57,100 @@ export class PositionService {
           };
         }
       }
+    async all(data,authUser){
+      if (authUser.role !== 2) {
+        return {
+          status: false,
+          message: 'Not an Admin',
+        };
+      }
+      let checkDepartmentId=await this.DB.Models['Department'].findOne({
+        where:{
+          id:data.department_id
+        }
+      })
+      if(!checkDepartmentId){
+        return{
+          status:false,
+          message:"Department Id not Exisit"
+        }
+      }
 
-    //   async delete(data, authUser) {
-    //     if (authUser.role != 2) {
-    //       return {
-    //         status: false,
-    //         message: 'Not an Admin',
-    //       };
-    //     }
-    //     let findDepartment = await this.DB.Models['Departments'].findOne({
-    //       where: { id: data.id },
-    //     });
-    //     if (!findDepartment) {
-    //       return {
-    //         status: false,
-    //         message: 'Not Valid Id',
-    //       };
-    //     }
-    
-    //     let deletDepartment = await this.DB.Models['Departments'].destroy({
-    //       where: {
-    //         id: data.id,
-    //       },
-    //     });
-    //     if (deletDepartment) {
-    //       return {
-    //         status: true,
-    //         message: 'Success',
-    //       };
-    //     } else {
-    //       return {
-    //         status: false,
-    //         message: 'Failed',
-    //       };
-    //     }
-    //   }
-    //   async viewAllDepartment(data: ViewAllDepartmentsDto, authUser) {
-    //     if (authUser.role !== 2) {
-    //       return {
-    //         status: false,
-    //         message: 'Not an Admin',
-    //       };
-    //     }
-    //     const offset = (data.page - 1) * data.limit;
-    
-    
-    //     const departments = await this.DB.Models['Departments'].findAll({
-    //       attributes: [
-    //         'id',
-    //         'name',
-    //       ],
-    //       raw: true,
-    //       offset: offset,
-    //       limit: PaginationHelper.getLimit(data.limit),
-    //     });
-    
-    //     if (!departments || departments.length === 0) {
-    //       return {
-    //         status: false,
-    //         message: 'No department records found',
-    //       };
-    //     }
-    
-    //     const count = await this.DB.Models['Departments'].count({
-    //       where: {
-    //         platform_id: authUser.platform_id,
-    //       },
-    //     });
-    
-    //     const result = PaginationHelper.Paginate(
-    //       count,
-    //       data.page,
-    //       data.limit,
-    //       departments,
-    //     );
-    
-    //     return result;
-    //   }     
-}
+      let findPositions=await this.DB.Models['Position'].findAll({
+        where:{
+          department_id:data.department_id,
+          platform_id:authUser.platform_id,
+
+        }
+      })
+      return{
+        status:true,
+        data:findPositions
+      }
+    }
+    async update(data,authUser){
+      if (authUser.role !== 2) {
+        return {
+          status: false,
+          message: 'Not an Admin',
+        };
+      }
+      let checkPositionId=await this.DB.Models['Position'].findOne({
+        where:{
+          id:data.id,
+          platform_id:authUser.platform_id,
+        }
+      })
+      if(!checkPositionId){
+        return{
+          status:false,
+          message:"Not a valid Id of position"
+        }
+      }
+
+      let updatePositions=await this.DB.Models['Position'].update({
+        name:data.name
+      },{
+        where:{
+          id:data.id,
+          department_id:data.department_id,
+          platform_id:authUser.platform_id,
+
+        }
+      })
+      return{
+        status:true,
+        message:"Updated successfully"
+      }
+    }
+    async delete(data,authUser){
+      if (authUser.role !== 2) {
+        return {
+          status: false,
+          message: 'Not an Admin',
+        };
+      }
+      let checkPositionId=await this.DB.Models['Position'].findOne({
+        where:{
+          id:data.id,
+          platform_id:authUser.platform_id,
+        }
+      })
+      if(!checkPositionId){
+        return{
+          status:false,
+          message:"Not a valid Id of position"
+        }
+      }
+      let deletePosition=await this.DB.Models['Position'].destroy({
+        where:{
+          id:data.id,
+          platform_id:authUser.platform_id
+        }
+      })
+      return{
+        status:true,
+        message:"Deleted successfully"
+      }
+    }
+    }

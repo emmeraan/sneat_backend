@@ -11,15 +11,13 @@ export class DepartmentService {
   constructor(private readonly DB:DatabaseService,
     ){}
     async createDepartment(data: CreateDepartmentDto, authUser) {
-        console.log('Create Department Data:', data);
-      
         if (authUser.role !== 2) {
           return {
             status: false,
             message: 'Not an Admin',
           };
         }
-        let findDepartment = await this.DB.Models['Departments'].findOne({
+        let findDepartment = await this.DB.Models['Department'].findOne({
           where: { name: data.name,platform_id:authUser.platform_id },
         });
         if (findDepartment) {
@@ -29,7 +27,7 @@ export class DepartmentService {
           };
         }
       
-        let createNewDepartment = await this.DB.Models['Departments'].create({
+        let createNewDepartment = await this.DB.Models['Department'].create({
           platform_id: authUser.platform_id,
           name: data.name,
         });
@@ -54,7 +52,7 @@ export class DepartmentService {
             message: 'Not an Admin',
           };
         }
-        let findDepartment = await this.DB.Models['Departments'].findOne({
+        let findDepartment = await this.DB.Models['Department'].findOne({
           where: { id: data.id },
         });
         if (!findDepartment) {
@@ -64,7 +62,7 @@ export class DepartmentService {
           };
         }
     
-        let deletDepartment = await this.DB.Models['Departments'].destroy({
+        let deletDepartment = await this.DB.Models['Department'].destroy({
           where: {
             id: data.id,
           },
@@ -91,7 +89,7 @@ export class DepartmentService {
         const offset = (data.page - 1) * data.limit;
     
     
-        const departments = await this.DB.Models['Departments'].findAll({
+        const departments = await this.DB.Models['Department'].findAll({
           attributes: [
             'id',
             'name',
@@ -108,7 +106,7 @@ export class DepartmentService {
           };
         }
     
-        const count = await this.DB.Models['Departments'].count({
+        const count = await this.DB.Models['Department'].count({
           where: {
             platform_id: authUser.platform_id,
           },

@@ -36,22 +36,6 @@ export class AddSalaryDto extends CreateEmployeeDto{
       // bonus: number;
 
       @ApiProperty({
-        description: 'Enter start date of salary employee',
-        example: '2024-01-01',
-        required: true,
-      })
-      @IsString()
-      start_date: string;
-
-      @ApiProperty({
-        description: 'Enter start date of salary employee',
-        example: '2022-12-25',
-        required: true,
-      })
-      @IsString()
-      end_date: string;
-
-      @ApiProperty({
         description: 'Salary type of employee',
         example: 'Monthly',
         required: true,

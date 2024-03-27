@@ -17,7 +17,7 @@ import { Payroll } from './Payroll.model';
 import { FinancialTransaction } from './FinancialTransactions.model';
 import { Platform } from './Platform.model';
 import { Department } from './Department.model';
-import { Position } from './position.model';
+import { Position } from './Position.model';
 
 @Table({
   tableName: 'users',
@@ -116,7 +116,7 @@ export class User extends Model {
   financialTransaction: FinancialTransaction;
 
   @BelongsTo(() => Department)
-  departments: Department;
+  department: Department;
 
   @BelongsTo(() => Position)
   position: Position;
