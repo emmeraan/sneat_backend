@@ -16,7 +16,7 @@ import { Salary } from './Salary.model';
 import { Payroll } from './Payroll.model';
 import { FinancialTransaction } from './FinancialTransactions.model';
 import { Platform } from './Platform.model';
-import { Departments } from './Departments.model';
+import { Department } from './Department.model';
 
 @Table({
   tableName: 'users',
@@ -56,7 +56,7 @@ export class User extends Model {
   phone: number;
 
   @Column
-  cnic:number
+  cnic:string
 
   @Column
   password: string;
@@ -88,7 +88,7 @@ export class User extends Model {
   @Column
   position: string;
 
-  @ForeignKey(() => Departments)
+  @ForeignKey(() => Department)
   @Column
   department_id: number;
 
@@ -113,8 +113,8 @@ export class User extends Model {
   @HasMany(() => FinancialTransaction)
   financialTransaction: FinancialTransaction;
 
-  @BelongsTo(() => Departments)
-  departments: Departments;
+  @BelongsTo(() => Department)
+  departments: Department;
 
   @CreatedAt
   createdAt: Date;

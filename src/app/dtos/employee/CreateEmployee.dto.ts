@@ -57,11 +57,10 @@ export class CreateEmployeeDto{
 
   @ApiProperty({
     description: 'cnic number of user',
-    example: 332111111111,
+    example: "332111111111",
     required: false,
   })
-  @IsNumber()
-  cnic: number;
+  cnic: string;
 
   @ApiProperty({
     description: 'address of user',
@@ -80,12 +79,11 @@ export class CreateEmployeeDto{
   position: string;
 
   @ApiProperty({
-    description: 'department of user',
-    example: 'SQA',
+    description: 'department id of user',
+    example: '1',
     required: false,
   })
-  @IsString()
-  departement: string;
+  departement_id: number;
 
   // @ApiProperty({
   //   description: 'Status of employee work. Retired, Terminated, Active',

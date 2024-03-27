@@ -17,7 +17,7 @@ import { User } from './User.model';
     tableName: 'departments',
     paranoid: true,
   })
-  export class Departments extends Model {
+  export class Department extends Model {
     @Column({
       primaryKey: true,
       type: DataType.INTEGER,
