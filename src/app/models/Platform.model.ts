@@ -17,7 +17,7 @@ import { User } from './User.model';
 import { Customer } from './Customer.model';
 import { Product } from './Product.model';
 import { Vendor } from './Vendor.model';
-import { Departments } from './Departments.model';
+import { Department } from './Department.model';
 import { Position } from './position.model';
   
   @Table({
@@ -67,8 +67,8 @@ import { Position } from './position.model';
     @HasMany(() => Vendor)
     vendor: Vendor;
 
-    @HasMany(() => Departments)
-    departments: Departments;
+    @HasMany(() => Department)
+    department: Department;
 
     @HasMany(() => Position)
     position: Position;

@@ -8,12 +8,12 @@ import { Salary } from "./Salary.model";
 import { User } from "./User.model";
 import { Vendor } from "./Vendor.model";
 import { Platform } from "./Platform.model";
-import { Departments } from "./Departments.model";
+import { Department } from "./Department.model";
 import { Position } from "./position.model";
 
 
 export const Models = [
-    User, Vendor, Customer, Product, Attendence, Salary, Deduction, Payroll, FinancialTransaction,Platform , Departments , Position
+    User, Vendor, Customer, Product, Attendence, Salary, Deduction, Payroll, FinancialTransaction,Platform , Department , Position
 ];
 
 export const ModelNames = [

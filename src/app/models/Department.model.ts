@@ -51,6 +51,9 @@ import { Position } from './position.model';
 
     @HasMany(() => User)
     user: User;
+
+    @HasMany(() => Position)
+    position: Position;
   
   }
   

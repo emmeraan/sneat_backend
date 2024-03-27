@@ -1,17 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { FinancialTransaction } from 'src/app/models/FinancialTransactions.model';
-import { Attendence } from 'src/app/models/Attendence.model';
 import { Customer } from 'src/app/models/Customer.model';
-import { Deduction } from 'src/app/models/Deduction.model';
-import { Payroll } from 'src/app/models/Payroll.model';
-import { Salary } from 'src/app/models/Salary.model';
 import { User } from 'src/app/models/User.model';
 import { Vendor } from 'src/app/models/Vendor.model';
 import { ModelNames } from 'src/app/models/index.model';
 import { Platform } from 'src/app/models/Platform.model';
-import { Departments } from 'src/app/models/Departments.model';
 import { Position } from 'src/app/models/position.model';
+import { Attendence } from 'src/app/models/Attendence.model';
+import { Salary } from 'src/app/models/Salary.model';
+import { Deduction } from 'src/app/models/Deduction.model';
+import { Payroll } from 'src/app/models/Payroll.model';
+import { FinancialTransaction } from 'src/app/models/FinancialTransactions.model';
+import { Department } from 'src/app/models/Department.model';
 
 @Injectable()
 export class DatabaseService {
@@ -28,7 +28,7 @@ export class DatabaseService {
     @InjectModel(Payroll) private readonly payroll: Payroll, 
     @InjectModel(FinancialTransaction) private readonly financialTransaction: FinancialTransaction, 
     @InjectModel(Platform) private readonly platform: Platform,
-    @InjectModel(Departments) private readonly departments: Departments,
+    @InjectModel(Department) private readonly departments: Department,
     @InjectModel(Position) private readonly position: Position,
   ) {    
     for (const index in ModelNames) {
