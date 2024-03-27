@@ -1,19 +1,26 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsString } from "class-validator";
 
-export class CreatePositionDto{
-    
+export class UpdatePositionDto{
+
     @ApiProperty({
-        description: 'id of departement',
+        description: 'id of position',
         example: 1,
         required: true
     })
-    department_id: number
+    id: number
+    
+    // @ApiProperty({
+    //     description: 'id of departement',
+    //     example: 1,
+    //     required: false
+    // })
+    // department_id: number
 
     @ApiProperty({
         description: 'name of position',
         example: 'Director',
-        required: true
+        required: false
     })
     @IsString()  
     name: string

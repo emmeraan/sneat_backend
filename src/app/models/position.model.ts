@@ -15,8 +15,8 @@ import { User } from './User.model';
 import { Department } from './Department.model';
   
   @Table({
-    tableName: 'position',
-    paranoid: true,
+    tableName: 'positions',
+    // paranoid: true,
   })
   export class Position extends Model {
     @Column({
@@ -37,7 +37,7 @@ import { Department } from './Department.model';
       allowNull: false,
     })
     @ForeignKey(() => Department)
-    departement_id: number;
+    department_id: number;
 
     @Column
     name: string;
@@ -48,9 +48,9 @@ import { Department } from './Department.model';
     @UpdatedAt
     updatedAt: Date;
   
-    @DeletedAt
-    @Column({ type: DataType.DATE })
-    deletedAt: Date;
+    // @DeletedAt
+    // @Column({ type: DataType.DATE })
+    // deletedAt: Date;
 
     @BelongsTo(()=>Platform)
     platform:Platform

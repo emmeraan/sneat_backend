@@ -111,10 +111,10 @@ export class EmployeeService {
     salaryData.employee_id=createNewUser.id;
     salaryData.platform_id=authUser.platform_id;
     salaryData.basic=data.basic;
-    salaryData.bonus=data.bonus;
-    salaryData.salary_type=data.salary_type,
-    salaryData.start_date=new Date(data.start_date);
-    salaryData.end_date=new Date(data.end_date);
+    // salaryData.bonus=data.bonus;
+    salaryData.salary_type=data.salary_type;
+    // salaryData.start_date=new Date(data.start_date);
+    // salaryData.end_date=new Date(data.end_date);
     let CreateSalary= this.salaryService.addSalary(salaryData);
     
     if (createNewUser && CreateSalary) {

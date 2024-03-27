@@ -12,11 +12,11 @@ import {
   } from 'sequelize-typescript';
   import { Platform } from './Platform.model';
 import { User } from './User.model';
-import { Position } from './position.model';
+import { Position } from './Position.model';
   
   @Table({
     tableName: 'departments',
-    paranoid: true,
+    // paranoid: true,
   })
   export class Department extends Model {
     @Column({
@@ -42,9 +42,9 @@ import { Position } from './position.model';
     @UpdatedAt
     updatedAt: Date;
   
-    @DeletedAt
-    @Column({ type: DataType.DATE })
-    deletedAt: Date;
+    // @DeletedAt
+    // @Column({ type: DataType.DATE })
+    // deletedAt: Date;
 
     @BelongsTo(()=>Platform)
     platform:Platform

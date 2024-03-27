@@ -18,7 +18,7 @@ import { Customer } from './Customer.model';
 import { Product } from './Product.model';
 import { Vendor } from './Vendor.model';
 import { Department } from './Department.model';
-import { Position } from './position.model';
+import { Position } from './Position.model';
   
   @Table({
     tableName: 'platforms',

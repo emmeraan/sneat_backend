@@ -5,7 +5,7 @@ import { User } from 'src/app/models/User.model';
 import { Vendor } from 'src/app/models/Vendor.model';
 import { ModelNames } from 'src/app/models/index.model';
 import { Platform } from 'src/app/models/Platform.model';
-import { Position } from 'src/app/models/position.model';
+import { Position } from 'src/app/models/Position.model';
 import { Attendence } from 'src/app/models/Attendence.model';
 import { Salary } from 'src/app/models/Salary.model';
 import { Deduction } from 'src/app/models/Deduction.model';
@@ -28,7 +28,7 @@ export class DatabaseService {
     @InjectModel(Payroll) private readonly payroll: Payroll, 
     @InjectModel(FinancialTransaction) private readonly financialTransaction: FinancialTransaction, 
     @InjectModel(Platform) private readonly platform: Platform,
-    @InjectModel(Department) private readonly departments: Department,
+    @InjectModel(Department) private readonly department: Department,
     @InjectModel(Position) private readonly position: Position,
   ) {    
     for (const index in ModelNames) {

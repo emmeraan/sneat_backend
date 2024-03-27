@@ -75,15 +75,14 @@ export class CreateEmployeeDto{
     example: 'HR',
     required: false,
   })
-  @IsString()
-  position: string;
+  position_id: string;
 
   @ApiProperty({
     description: 'department id of user',
     example: '1',
     required: false,
   })
-  departement_id: number;
+  department_id: number;
 
   // @ApiProperty({
   //   description: 'Status of employee work. Retired, Terminated, Active',
@@ -102,7 +101,7 @@ export class CreateEmployeeDto{
 
   @ApiProperty({
     description: 'Joining date of employee',
-    example: '01-02-2022',
+    example: '2024-01-01',
     required: true,
   })
   @IsString()

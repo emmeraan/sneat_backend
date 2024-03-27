@@ -10,6 +10,5 @@ export class CreateDepartmentDto{
     })
     @IsString()  
     name: string
-    
 
 }

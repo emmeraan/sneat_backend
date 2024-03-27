@@ -9,7 +9,7 @@ import { User } from "./User.model";
 import { Vendor } from "./Vendor.model";
 import { Platform } from "./Platform.model";
 import { Department } from "./Department.model";
-import { Position } from "./position.model";
+import { Position } from "./Position.model";
 
 
 export const Models = [
@@ -17,5 +17,5 @@ export const Models = [
 ];
 
 export const ModelNames = [
-    'User', 'Vendor', 'Customer', 'Product', 'Attendence','Salary','Deduction', 'Payroll', 'FinancialTransaction','Platform','Departments','Position'
+    'User', 'Vendor', 'Customer', 'Product', 'Attendence','Salary','Deduction', 'Payroll', 'FinancialTransaction','Platform','Department','Position'
 ]

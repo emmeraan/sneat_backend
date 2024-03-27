@@ -1,21 +1,18 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsOptional } from "class-validator";
-
-
-
 export class ViewAllDepartmentsDto {
 
     @ApiProperty({
         description: 'Page number',
-        required: false
+        example:1,
+        required: true
     })
-    @IsOptional()
     page: number;
 
     @ApiProperty({
         description: 'Number of items per page',
-        required: false
+        required: true,
+        example:10
     })
-    @IsOptional()
     limit: number;
 }
