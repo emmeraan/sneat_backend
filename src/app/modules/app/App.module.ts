@@ -13,6 +13,7 @@ import { EmployeeModule } from '../employee/Employee.module';
 import { AttendenceModule } from '../attendence/Attendence.module';
 import { SalaryModule } from '../salary/Salary.module';
 import { DepartmentModule } from '../department/department.module';
+import { PositionModule } from '../position/position.module';
 
 @Module({
   imports: [
@@ -27,7 +28,8 @@ import { DepartmentModule } from '../department/department.module';
     EmployeeModule,
     AttendenceModule,
     SalaryModule,
-    DepartmentModule
+    DepartmentModule,
+    PositionModule
     
   ],
   controllers: [],
